@@ -1,5 +1,5 @@
 ﻿#include "socket.h"
-
+#include <QMessageBox>
 bool severStatus=false;
 bool ISconnected_0=false;
 bool ISconnected_1=false;
@@ -7,11 +7,18 @@ bool ISconnected_1=false;
 socket_SYS::socket_SYS(QObject *parent) : QObject(parent)
 {
     qDebug()<<"socket_SYS thread"<<QThread::currentThread();
+
+
+
+
+
+
 }
 
 socket_SYS::socket_SYS(Ui::MainWindow *ui)
 {
-   mui=ui;
+    mui=ui;
+
 }
 void socket_SYS::socket_Int()
 {
@@ -98,17 +105,14 @@ bool socket_SYS::server_New_Connect()
 
 void socket_SYS::wave_socket_Read_Data()
 {
-    QByteArray waveData = waveClient->readAll();
-    QByteArray waveDataC1;
-    waveDataC1[0]= waveData.at(6);
-    waveDataC1[1]= waveData.at(7);
-    int C1=waveDataC1.toHex().toInt(0,16);
-    QByteArray waveDataforcheck=waveData.remove(6,2);
-    uint16_t C2=CRC->ModbusCRC16(waveDataforcheck);
-
-
-
-    qDebug()<<"waveData";
+//    QByteArray waveData = waveClient->readAll();
+//    QByteArray waveDataC1;
+//    waveDataC1[0]= waveData.at(6);
+//    waveDataC1[1]= waveData.at(7);
+//    int C1=waveDataC1.toHex().toInt(0,16);
+//    QByteArray waveDataforcheck=waveData.remove(6,2);
+//    uint16_t C2=CRC->ModbusCRC16(waveDataforcheck);
+//    qDebug()<<"waveData";
 }
 void socket_SYS::wave_socket_Disconnected()
 {
@@ -224,3 +228,33 @@ void socket_SYS::wave_socket_Disconnected()
 //{};
 //void socket_SYS::ControlARMMove(int type,int length)
 //{};
+QByteArray socket_SYS::readUIParameter(int type)
+{
+    QByteArray UIParameter;
+    int UIParameterF[10];
+
+     UIParameterF[0]=mui->emissionN->currentText().toFloat();
+     UIParameterF[1]=mui->emissionVoltage->text().toFloat()*10;
+     UIParameterF[2]=mui->emissionCount->text().toInt();
+     UIParameterF[3]=mui->emissionFrequency->text().toFloat()*10;
+     UIParameterF[4]=mui->emissionWavePool->currentIndex();
+     UIParameterF[5]=mui->emissionInterval->text().toInt();
+     UIParameterF[6]=mui->amplingLength->currentIndex();
+     UIParameterF[7]=mui->amplingFrequency->currentIndex();
+     UIParameterF[7]=mui->gainMultiplier->text().toInt();
+     UIParameterF[9]=type;
+     UIParameter.resize(sizeof(UIParameterF));
+     memcpy(UIParameter.data(), &UIParameterF, sizeof(UIParameter));
+    return UIParameter;
+
+};
+void socket_SYS::wave_socket_SendMSG()
+{
+
+    QByteArray MSG;
+
+
+
+
+};
+

@@ -3,6 +3,7 @@
 #include <socket.h>
 #include <QMainWindow>
 #include <QThread>
+#include <mychart.h>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -15,12 +16,16 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     QThread *wave_thread ;
-
+    myChart *waveChart;
     socket_SYS *waveSocket;
 
  signals:
     void socketInit();
-
+    void sendMSG();
+private slots:
+    void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
+    void on_gainMultiplier_editingFinished();
 private:
     Ui::MainWindow *ui;
 };

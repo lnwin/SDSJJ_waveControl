@@ -8,6 +8,7 @@
 #include <QThread>
 #include <ui_mainwindow.h>
 //#include <mystruct.h>
+#include <QDebug>
 class socket_SYS : public QObject
 {
     Q_OBJECT
@@ -23,7 +24,7 @@ public:
     QThread *socketThread;
 
     Ui::MainWindow *mui;
-
+    QByteArray readUIParameter(int type);
 signals:
   void sendSocketState2T(QString);
   void sendcontrolMSG2T(QVariantList val);
@@ -33,6 +34,8 @@ public slots:
     bool server_New_Connect();
     void wave_socket_Read_Data();
     void wave_socket_Disconnected();
+    void wave_socket_SendMSG();
+
 
 private:
 

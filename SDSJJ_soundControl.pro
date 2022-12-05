@@ -12,12 +12,14 @@ SOURCES += \
     crc.cpp \
     main.cpp \
     mainwindow.cpp \
+    mychart.cpp \
     qcustomplot.cpp \
     socket.cpp
 
 HEADERS += \
     crc.h \
     mainwindow.h \
+    mychart.h \
     qcustomplot.h \
     socket.h
 
