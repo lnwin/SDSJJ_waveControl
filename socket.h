@@ -35,8 +35,10 @@ public slots:
     void wave_socket_Read_Data();
     void wave_socket_Disconnected();
     void wave_socket_SendMSG();
+    void startSample();
 
 
+private slots:
 private:
 
 

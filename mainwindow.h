@@ -22,10 +22,17 @@ public:
  signals:
     void socketInit();
     void sendMSG();
+    void startSample();
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
     void on_gainMultiplier_editingFinished();
+    void on_amplingLength_editingFinished();
+    void on_waveGetStart_editingFinished();
+    void on_waveGetEnd_editingFinished();
+
+    void on_startSample_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

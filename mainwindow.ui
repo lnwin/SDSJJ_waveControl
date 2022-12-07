@@ -76,27 +76,22 @@
        </property>
        <item>
         <property name="text">
-         <string>1</string>
+         <string>5MHz</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>2</string>
+         <string>10MHz</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>3</string>
+         <string>15MHz</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>4</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>5</string>
+         <string>20MHz</string>
         </property>
        </item>
       </widget>
@@ -133,7 +128,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>采样长度</string>
+        <string>采样长度(k)</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_16">
@@ -182,40 +177,15 @@
         </rect>
        </property>
       </widget>
-      <widget class="QComboBox" name="amplingLength_2">
+      <widget class="QLineEdit" name="amplingLength_2">
        <property name="geometry">
         <rect>
          <x>120</x>
          <y>80</y>
-         <width>69</width>
-         <height>22</height>
+         <width>71</width>
+         <height>21</height>
         </rect>
        </property>
-       <item>
-        <property name="text">
-         <string>1</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>2</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>3</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>4</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>5</string>
-        </property>
-       </item>
       </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox_4">
@@ -413,7 +383,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>发射间隔</string>
+        <string>发射间隔(s)</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="waveformCyclesN_2">
@@ -494,27 +464,22 @@
        </property>
        <item>
         <property name="text">
-         <string>1</string>
+         <string>5MHz</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>2</string>
+         <string>10MHz</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>3</string>
+         <string>15MHz</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>4</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>5</string>
+         <string>20MHz</string>
         </property>
        </item>
       </widget>
@@ -540,6 +505,9 @@
          <height>21</height>
         </rect>
        </property>
+       <property name="text">
+        <string>128</string>
+       </property>
       </widget>
       <widget class="QLabel" name="label_10">
        <property name="geometry">
@@ -551,7 +519,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>采样长度</string>
+        <string>采样长度(k)</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_11">
@@ -589,6 +557,9 @@
          <height>21</height>
         </rect>
        </property>
+       <property name="text">
+        <string>2</string>
+       </property>
       </widget>
       <widget class="QLineEdit" name="waveGetEnd">
        <property name="geometry">
@@ -599,41 +570,25 @@
          <height>21</height>
         </rect>
        </property>
+       <property name="text">
+        <string>3</string>
+       </property>
       </widget>
-      <widget class="QComboBox" name="amplingLength">
+      <widget class="QLineEdit" name="amplingLength">
        <property name="geometry">
         <rect>
          <x>120</x>
          <y>80</y>
-         <width>69</width>
-         <height>22</height>
+         <width>71</width>
+         <height>21</height>
         </rect>
        </property>
-       <item>
-        <property name="text">
-         <string>1</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>2</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>3</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>4</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>5</string>
-        </property>
-       </item>
+       <property name="text">
+        <string>1</string>
+       </property>
+       <property name="maxLength">
+        <number>255</number>
+       </property>
       </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox_2">
@@ -682,6 +637,9 @@
          <width>71</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="text">
+        <string>3</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_5">
@@ -787,6 +745,9 @@
          <height>21</height>
         </rect>
        </property>
+       <property name="text">
+        <string>5</string>
+       </property>
       </widget>
       <widget class="QLineEdit" name="emissionVoltage">
        <property name="geometry">
@@ -796,6 +757,9 @@
          <width>71</width>
          <height>21</height>
         </rect>
+       </property>
+       <property name="text">
+        <string>0.5</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_2">
@@ -820,6 +784,9 @@
          <height>21</height>
         </rect>
        </property>
+       <property name="text">
+        <string>1.9</string>
+       </property>
       </widget>
       <widget class="QLabel" name="label_6">
        <property name="geometry">
@@ -831,7 +798,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>发射间隔</string>
+        <string>发射间隔(s)</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="waveformCyclesN">
@@ -843,13 +810,16 @@
          <height>21</height>
         </rect>
        </property>
+       <property name="text">
+        <string>5</string>
+       </property>
       </widget>
      </widget>
      <widget class="QPushButton" name="pushButton">
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>500</y>
+        <y>480</y>
         <width>75</width>
         <height>41</height>
        </rect>
@@ -862,13 +832,26 @@
       <property name="geometry">
        <rect>
         <x>130</x>
-        <y>500</y>
+        <y>480</y>
         <width>75</width>
         <height>41</height>
        </rect>
       </property>
       <property name="text">
        <string>参数读取</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="startSample">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>530</y>
+        <width>75</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>开始发射</string>
       </property>
      </widget>
     </widget>

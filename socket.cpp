@@ -31,13 +31,13 @@ void socket_SYS::socket_Int()
 }
 bool socket_SYS::socket_Listening()
 {
-   // int port = 8087;  监听控制的端口号
+  //int port = 8087;  监听控制的端口号
     int port = 8088; //监听波形的端口号
 
     if(!mainServer->isListening())
     {
        if(mainServer->listen(QHostAddress("192.168.1.100"), port))
-      // if(mainServer->listen(QHostAddress::AnyIPv4, port))
+       //if(mainServer->listen(QHostAddress("10.16.50.16"), port))
         {
          // ui->textEdit->append("TCP_Sever is listeing");
          // ui->PortButton->setText("Stop Listen");
@@ -47,7 +47,6 @@ bool socket_SYS::socket_Listening()
          // qDebug()<<"mainServer listening ok";
             mui->textEdit->append(QStringLiteral("监听成功！\n"));
             return  true;
-
          }
        else
        {
@@ -177,84 +176,61 @@ void socket_SYS::wave_socket_Disconnected()
 ////   }
 
 
-//}
-//void socket_SYS::control_socket_Disconnected()
-//{
-//    emit sendSocketState2T(QStringLiteral("控制网络已断开！\n"));
-//}
-//void socket_SYS::ControlTG(int type,int length)
-//{
 
-////       QByteArray MSG;
-////       MSG[0]=0x01;
-////       MSG[1]=0x06;
-////       MSG[2]=0x03;
-////       MSG[3]=0x01;
-////       MSG[4]=length>>8;
-////       MSG[5]=(length<<8)>>8;
-////    // int C1=waveDataC1.toHex().toInt(0,16);
-////    // QByteArray waveDataforcheck=waveData.remove(6,2);
-
-////    if(type==Up)
-////    {
-////         MSG[3]=0x02;
-////         uint16_t C2=CRC->ModbusCRC16(MSG);
-////         MSG[6]=C2>>8;
-////         MSG[7]=(C2<<8)>>8;
-////         controlClient->write(MSG);
-////    }
-////    else if(type==Down)
-////    {
-////         MSG[3]=0x01;
-////         uint16_t C2=CRC->ModbusCRC16(MSG);
-////         MSG[6]=C2>>8;
-////         MSG[7]=(C2<<8)>>8;
-////         controlClient->write(MSG);
-////    }
-////    else
-////    {
-////        MSG[3]=0x00;
-////        MSG[4]=0xff;
-////        MSG[5]=0xff;
-////        uint16_t C2=CRC->ModbusCRC16(MSG);
-////        MSG[6]=C2>>8;
-////        MSG[7]=(C2<<8)>>8;
-////        controlClient->write(MSG);
-
-////    }
-
-//};
-//void socket_SYS::ControlARMST(int type)
-//{};
-//void socket_SYS::ControlARMMove(int type,int length)
-//{};
 QByteArray socket_SYS::readUIParameter(int type)
 {
     QByteArray UIParameter;
-    int UIParameterF[10];
+    UIParameter.resize(13);
 
-     UIParameterF[0]=mui->emissionN->currentText().toFloat();
-     UIParameterF[1]=mui->emissionVoltage->text().toFloat()*10;
-     UIParameterF[2]=mui->emissionCount->text().toInt();
-     UIParameterF[3]=mui->emissionFrequency->text().toFloat()*10;
-     UIParameterF[4]=mui->emissionWavePool->currentIndex();
-     UIParameterF[5]=mui->emissionInterval->text().toInt();
-     UIParameterF[6]=mui->amplingLength->currentIndex();
-     UIParameterF[7]=mui->amplingFrequency->currentIndex();
-     UIParameterF[7]=mui->gainMultiplier->text().toInt();
-     UIParameterF[9]=type;
-     UIParameter.resize(sizeof(UIParameterF));
-     memcpy(UIParameter.data(), &UIParameterF, sizeof(UIParameter));
-    return UIParameter;
+     UIParameter[0]=mui->emissionN->currentIndex()+1 ;
+     UIParameter[1]=int(mui->emissionVoltage->text().toFloat()*10);
+     UIParameter[2]=mui->waveformCyclesN->text().toInt();
+     UIParameter[3]=int(mui->emissionFrequency->text().toFloat()*10);
+     UIParameter[4]=mui->emissionWavePool->currentIndex()+1;
+     UIParameter[5]=mui->emissionInterval->text().toInt();
+     UIParameter[6]=mui->emissionCount->text().toInt();
+     UIParameter[7]=mui->amplingLength->text().toInt();
+     UIParameter[8]=mui->amplingFrequency->currentIndex()+1;
+     UIParameter[9]=mui->gainMultiplier->text().toInt();
+     UIParameter[10]=mui->waveGetStart->text().toInt();
+     UIParameter[11]=mui->waveGetEnd->text().toInt();
+     UIParameter[12]=type;
+    // UIParameter.resize(sizeof(UIParameterF));
+    // memcpy(UIParameter.data(), &UIParameterF, sizeof(UIParameter));
+     return UIParameter;
 
 };
 void socket_SYS::wave_socket_SendMSG()
 {
 
+    uint16_t C3=CRC->ModbusCRC16(readUIParameter(1));
     QByteArray MSG;
-
-
-
+    MSG.resize(2);
+    MSG[1]=C3>>8;//高位在后
+    MSG[0]=(C3<<8)>>8;
+    MSG.append(readUIParameter(1));
+    qDebug()<<"MSG.toHex()"<<MSG.toHex();
+    waveClient->write(MSG);
 
 };
+
+void socket_SYS::startSample()
+{
+    QByteArray ORG;
+    ORG.resize(2);
+    ORG[0]=0x01;
+    ORG[1]=0x02;
+    uint16_t C3=CRC->ModbusCRC16(ORG);
+    QByteArray MSG;
+    MSG.resize(2);
+    MSG[1]=C3>>8;//高位在后
+    MSG[0]=(C3<<8)>>8;
+    MSG.append(ORG);
+    waveClient->write(MSG);
+
+}
+
+
+
+
 

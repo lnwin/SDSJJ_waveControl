@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
        waveChart=new myChart(ui);
        connect(this,SIGNAL(socketInit()),waveSocket,SLOT (socket_Int()));
        connect(this,SIGNAL(sendMSG()),waveSocket,SLOT (wave_socket_SendMSG()));
+       connect(this,SIGNAL(startSample()),waveSocket,SLOT (startSample()));
        waveSocket->moveToThread(wave_thread);
        wave_thread->start();
 
@@ -43,3 +44,53 @@ void MainWindow::on_gainMultiplier_editingFinished()
          ui->gainMultiplier->setText("");
      }
 }
+void MainWindow::on_amplingLength_editingFinished()
+{
+     if(ui->amplingLength->text().toInt()>128 )
+     {
+         QMessageBox msgBox;
+         msgBox.setText("数值需小于128");
+         msgBox.exec();
+         ui->amplingLength->setText("");
+     }
+}
+void MainWindow::on_waveGetStart_editingFinished()
+{
+    if(ui->waveGetStart->text().toInt()>128 )
+    {
+        QMessageBox msgBox;
+        msgBox.setText("数值需小于128");
+        msgBox.exec();
+        ui->waveGetStart->setText("");
+    }
+    if(ui->waveGetStart->text().toInt()<0)
+    {
+        QMessageBox msgBox;
+        msgBox.setText("数值需大于0");
+        msgBox.exec();
+        ui->waveGetStart->setText("");
+    }
+}
+void MainWindow::on_waveGetEnd_editingFinished()
+{
+    if(ui->waveGetEnd->text().toInt()<ui->waveGetStart->text().toInt() )
+    {
+        QMessageBox msgBox;
+        msgBox.setText("数值需大于开始值");
+        msgBox.exec();
+        ui->waveGetEnd->setText("");
+    }
+    if(ui->waveGetEnd->text().toInt()>ui->amplingLength->text().toInt())
+    {
+        QMessageBox msgBox;
+        msgBox.setText("数值不得大于采样长度");
+        msgBox.exec();
+        ui->waveGetEnd->setText("");
+    }
+}
+
+void MainWindow::on_startSample_clicked()
+{
+    emit startSample();
+}
+
