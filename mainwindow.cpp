@@ -7,16 +7,20 @@ MainWindow::MainWindow(QWidget *parent)
 {
        ui->setupUi(this);
        qDebug()<<"main thread"<<QThread::currentThread();
-       wave_thread =new QThread();
+       waveSocketThread =new QThread();
+       waveChartThread=new QThread();
        waveSocket =new socket_SYS(ui);
        waveChart=new myChart(ui);
        connect(this,SIGNAL(socketInit()),waveSocket,SLOT (socket_Int()));
        connect(this,SIGNAL(sendMSG()),waveSocket,SLOT (wave_socket_SendMSG()));
        connect(this,SIGNAL(startSample()),waveSocket,SLOT (startSample()));
-       waveSocket->moveToThread(wave_thread);
-       wave_thread->start();
-
+       connect(this,SIGNAL(sendFilePath(QString)),waveSocket,SLOT (receiveFilePath(QString)));
+       waveSocket->moveToThread(waveSocketThread);
+       waveSocketThread->start();
        emit socketInit();
+       waveChart->moveToThread(waveChartThread);
+       waveChartThread->start();
+       connect(this,SIGNAL(chartInit()),waveChart,SLOT (chart_Init()));
 
 }
 
@@ -92,5 +96,19 @@ void MainWindow::on_waveGetEnd_editingFinished()
 void MainWindow::on_startSample_clicked()
 {
     emit startSample();
+}
+void MainWindow::on_fileSaveButton_clicked()
+{
+    srcDirPath = QFileDialog::getExistingDirectory( this, "Rec path", "/");
+       if (srcDirPath.isEmpty())
+       {
+           return;
+       }
+       else
+       {
+           ui->fileStream->setText(srcDirPath);
+           emit sendFilePath(srcDirPath);
+
+       }
 }
 

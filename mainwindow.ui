@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1280</width>
+    <width>1235</width>
     <height>654</height>
    </rect>
   </property>
@@ -17,10 +17,10 @@
    <widget class="QTextEdit" name="textEdit">
     <property name="geometry">
      <rect>
-      <x>750</x>
-      <y>550</y>
-      <width>521</width>
-      <height>71</height>
+      <x>760</x>
+      <y>510</y>
+      <width>441</width>
+      <height>81</height>
      </rect>
     </property>
    </widget>
@@ -584,7 +584,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>1</string>
+        <string>5</string>
        </property>
        <property name="maxLength">
         <number>255</number>
@@ -639,7 +639,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>3</string>
+        <string>1</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_5">
@@ -692,12 +692,12 @@
        </property>
        <item>
         <property name="text">
-         <string>正弦波</string>
+         <string>高斯波</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>高斯波</string>
+         <string>正弦波</string>
         </property>
        </item>
       </widget>
@@ -856,56 +856,65 @@
      </widget>
     </widget>
    </widget>
-   <widget class="QTextEdit" name="readParameter">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>270</x>
-      <y>550</y>
-      <width>471</width>
-      <height>71</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QCustomPlot" name="widget" native="true">
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>40</y>
-      <width>441</width>
-      <height>211</height>
+      <y>10</y>
+      <width>931</width>
+      <height>241</height>
      </rect>
     </property>
    </widget>
    <widget class="QCustomPlot" name="widget_2" native="true">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>40</y>
-      <width>441</width>
-      <height>211</height>
+      <x>290</x>
+      <y>260</y>
+      <width>931</width>
+      <height>241</height>
      </rect>
     </property>
    </widget>
-   <widget class="QCustomPlot" name="widget_3" native="true">
+   <widget class="QPushButton" name="fileSaveButton">
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>270</y>
-      <width>441</width>
-      <height>211</height>
+      <y>600</y>
+      <width>141</width>
+      <height>24</height>
      </rect>
     </property>
+    <property name="text">
+     <string>选择波形文件存储路径</string>
+    </property>
    </widget>
-   <widget class="QCustomPlot" name="widget_4" native="true">
+   <widget class="QLineEdit" name="fileStream">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>270</y>
+      <x>440</x>
+      <y>600</y>
+      <width>761</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>D:/waveFiles</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="readParameter">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>510</y>
       <width>441</width>
-      <height>211</height>
+      <height>81</height>
      </rect>
     </property>
    </widget>
@@ -915,7 +924,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1280</width>
+     <width>1235</width>
      <height>22</height>
     </rect>
    </property>

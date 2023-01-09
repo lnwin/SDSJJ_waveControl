@@ -11,7 +11,10 @@ public:
     myChart(Ui::MainWindow *ui);
 
     Ui::MainWindow *mcui;
-private slots:
+public slots:
+
+    void chart_Init();
+
 
 };
 

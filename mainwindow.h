@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QThread>
 #include <mychart.h>
+#include <qfiledialog.h>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -15,14 +16,17 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    QThread *wave_thread ;
+    QThread *waveSocketThread ;
+    QThread *waveChartThread ;
     myChart *waveChart;
     socket_SYS *waveSocket;
 
  signals:
     void socketInit();
+    void chartInit();
     void sendMSG();
     void startSample();
+    void sendFilePath(QString);
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
@@ -32,8 +36,10 @@ private slots:
     void on_waveGetEnd_editingFinished();
 
     void on_startSample_clicked();
+    void on_fileSaveButton_clicked();
 
 private:
     Ui::MainWindow *ui;
+    QString  srcDirPath;
 };
 #endif // MAINWINDOW_H

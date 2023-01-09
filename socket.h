@@ -36,12 +36,20 @@ public slots:
     void wave_socket_Disconnected();
     void wave_socket_SendMSG();
     void startSample();
+    void receiveFilePath(QString);
 
 
-private slots:
 private:
 
+    QString myFilePath ="D:/waveFiles";
+    bool noMode=true;
+    bool isCurrentData=false;
+    bool isFileData=false;
+    QString currentdataStream;
+    QString filsedataStream;
 
+    void analyzeCurrentData(QString);
+    void saveFileData(QString);
 };
 
 #endif // SOCKET_H

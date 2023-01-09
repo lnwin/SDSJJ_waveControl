@@ -7,12 +7,6 @@ bool ISconnected_1=false;
 socket_SYS::socket_SYS(QObject *parent) : QObject(parent)
 {
     qDebug()<<"socket_SYS thread"<<QThread::currentThread();
-
-
-
-
-
-
 }
 
 socket_SYS::socket_SYS(Ui::MainWindow *ui)
@@ -45,7 +39,7 @@ bool socket_SYS::socket_Listening()
             connect(mainServer, SIGNAL(newConnection()), this, SLOT(server_New_Connect()));
          // connect(mainServer, SIGNAL(close()),this, SLOT(socket_SoptListening()));
          // qDebug()<<"mainServer listening ok";
-            mui->textEdit->append(QStringLiteral("监听成功！\n"));
+            mui->textEdit->append(QStringLiteral("监听成功！"));
             return  true;
          }
        else
@@ -53,7 +47,7 @@ bool socket_SYS::socket_Listening()
           // ui->textEdit->append("Listening failed, Plesas change TCP_Sever IP to >>192.168.1.65<<!");
           // qDebug()<<"TCP_Sever listen failed, Plesas change TCP_Sever IP to >>192.168.1.65<<!";
            //qDebug()<<"Socket isListening thread"<<QThread::currentThread();
-            mui->textEdit->append(QStringLiteral("监听失败, 请尝试将IP改为 >>192.168.1.100<<!\n"));
+            mui->textEdit->append(QStringLiteral("监听失败, 请尝试将IP改为 >>192.168.1.100<<!"));
             return  false;
 
        }
@@ -64,7 +58,7 @@ bool socket_SYS::socket_Listening()
     else
     {
           mainServer->close();
-          mui->textEdit->append(QStringLiteral("监听已关闭！\n"));
+          mui->textEdit->append(QStringLiteral("监听已关闭！"));
         // ui->PortButton->setText("Start Listen");
        //  ui->Net_light->setStyleSheet("border-image: url(:/new/icon/picture/gray.png);");
     }
@@ -80,13 +74,13 @@ bool socket_SYS::server_New_Connect()
 
            if(!waveClient)
            {
-               mui->textEdit->append(QStringLiteral("声学网络连接失败！\n"));
+               mui->textEdit->append(QStringLiteral("声学网络连接失败！"));
                // qDebug()<<waveClient;
                return false;
            }
            else
            {
-               mui->textEdit->append(QStringLiteral("声学网络连接成功！\n"));
+               mui->textEdit->append(QStringLiteral("声学网络连接成功！"));
                qDebug()<<waveClient->peerAddress();
                qDebug()<<waveClient->peerPort();
                connect(waveClient, SIGNAL(readyRead()), this, SLOT(wave_socket_Read_Data()));
@@ -104,18 +98,96 @@ bool socket_SYS::server_New_Connect()
 
 void socket_SYS::wave_socket_Read_Data()
 {
-//    QByteArray waveData = waveClient->readAll();
-//    QByteArray waveDataC1;
+    QByteArray waveData = waveClient->readAll();
+    char *myData = waveData.data();
+    QString str;
+    str = QString::fromLocal8Bit(myData);
+
+    if(noMode)
+    {
+        QString strHead;
+        strHead=str.left(5);
+        if(strHead=="$$$$$")
+        {
+           mui->textEdit->append(QStringLiteral("开始接收实时波形数据"));
+           mui->textEdit->update();
+           isCurrentData=true;
+           noMode=false;
+           if(str.size()>10)
+           {
+               str.remove(0,7);
+               currentdataStream+=str;
+           }
+
+        }
+        else if (strHead=="#####")
+        {
+            mui->textEdit->append(QStringLiteral("开始接收波形文件"));
+            mui->textEdit->update();
+            isFileData=true;
+            noMode=false;
+            if(str.size()>10)
+            {
+                str.remove(0,7);
+                filsedataStream+=str;
+            }
+
+        }
+
+    }
+
+    else
+    {
+         QString strTips;
+         strTips=str.right(7);
+        if(isCurrentData)
+        {
+               qDebug()<<strTips;
+            currentdataStream+=str;
+           // if(strTips=="&&&&&\r\n") 实际使用
+            if(strTips=="&&&\\r\\n")//本地测试用
+            {
+                isCurrentData=false;
+                noMode=true;
+                mui->textEdit->append(QStringLiteral("实时波形接收结束"));
+                mui->textEdit->update();
+                QString finalcurrentdataStream=currentdataStream.remove(currentdataStream.indexOf("&"),9);//本地测试是9，实际需要改
+                analyzeCurrentData(finalcurrentdataStream);
+                currentdataStream.clear();
+            }
+        }
+        else if (isFileData)
+        {
+            filsedataStream+=str;
+            // if(strTips=="&&&&&\r\n") 实际使用
+             if(strTips=="&&&&&\r\n")//本地测试用
+            {
+                isCurrentData=false;
+                noMode=true;
+                mui->textEdit->append(QStringLiteral("波形文件接收结束"));
+                mui->textEdit->update();
+                QString finalfilsedataStream=filsedataStream.remove(filsedataStream.indexOf("&"),7);
+                filsedataStream.clear();
+            }
+
+        }
+    }
+
+
+
+//    QByteArray waveDataC1;is
 //    waveDataC1[0]= waveData.at(6);
 //    waveDataC1[1]= waveData.at(7);
 //    int C1=waveDataC1.toHex().toInt(0,16);
 //    QByteArray waveDataforcheck=waveData.remove(6,2);
 //    uint16_t C2=CRC->ModbusCRC16(waveDataforcheck);
-//    qDebug()<<"waveData";
+
+
+
 }
 void socket_SYS::wave_socket_Disconnected()
 {
-     mui->textEdit->append(QStringLiteral("声学网络已断开！\n"));
+     mui->textEdit->append(QStringLiteral("声学网络已断开！"));
 }
 //void socket_SYS::control_socket_Read_Data()
 //{
@@ -230,7 +302,32 @@ void socket_SYS::startSample()
 
 }
 
+void socket_SYS::receiveFilePath(QString filePath)
+{
+    myFilePath = filePath;
+}
+
+void socket_SYS::analyzeCurrentData(QString cd)
+{
+    QList<double>channal_1;
+    QList<double>channal_2;
+    QList<QString>cdList=cd.split(" ");
+    //qDebug()<<"cdList"<<cdList;
+    bool ok;
+    int countN=cdList.size()/2;
+     for(int i=0;i<countN;i++)
+     {
+        channal_1.append(cdList[i*2].toDouble(&ok));
+        channal_2.append(cdList[(i*2)+1].chopped(4).toDouble(&ok));//本地测试是4，实际需要改
+     }
 
 
+//    qDebug()<<"channal_1"<<channal_1;
+//    qDebug()<<"channal_2"<<channal_2;
+}
+void socket_SYS::saveFileData(QString fd)
+{
+
+};
 
 
