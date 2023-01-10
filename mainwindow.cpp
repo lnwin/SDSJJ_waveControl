@@ -10,23 +10,26 @@ MainWindow::MainWindow(QWidget *parent)
        waveSocketThread =new QThread();
        waveChartThread=new QThread();
        waveSocket =new socket_SYS(ui);
-       waveChart=new myChart(ui);
+       waveChart=new myChart();
+       waveChart->chart_Init(ui);
        connect(this,SIGNAL(socketInit()),waveSocket,SLOT (socket_Int()));
        connect(this,SIGNAL(sendMSG()),waveSocket,SLOT (wave_socket_SendMSG()));
        connect(this,SIGNAL(startSample()),waveSocket,SLOT (startSample()));
+       connect(this,SIGNAL(sendDestroy()),waveSocket,SLOT (closeMySocket()));
        connect(this,SIGNAL(sendFilePath(QString)),waveSocket,SLOT (receiveFilePath(QString)));
        waveSocket->moveToThread(waveSocketThread);
        waveSocketThread->start();
+       connect(waveSocket,SIGNAL(sendData2Chart(QList<double>,QList<double>)),waveChart,SLOT (chartUpdate(QList<double>,QList<double>)));
        emit socketInit();
-       waveChart->moveToThread(waveChartThread);
-       waveChartThread->start();
-       connect(this,SIGNAL(chartInit()),waveChart,SLOT (chart_Init()));
+
 
 }
 
 MainWindow::~MainWindow()
 {
+    emit sendDestroy();
     delete ui;
+
 }
 void MainWindow::on_pushButton_clicked()
 {

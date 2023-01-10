@@ -9,12 +9,15 @@
 #include <ui_mainwindow.h>
 //#include <mystruct.h>
 #include <QDebug>
+#include <QFile>
+#include <QTime>
+#include <QDateTime>
 class socket_SYS : public QObject
 {
     Q_OBJECT
 public:
     explicit socket_SYS(QObject *parent = nullptr);
-
+     ~socket_SYS();
     socket_SYS(Ui::MainWindow *ui);
     QTcpServer *mainServer;
     QTcpSocket *waveClient;
@@ -28,6 +31,7 @@ public:
 signals:
   void sendSocketState2T(QString);
   void sendcontrolMSG2T(QVariantList val);
+  void sendData2Chart(QList<double>C1,QList<double>C2);
 public slots:
     void socket_Int();
     bool socket_Listening();
@@ -37,6 +41,7 @@ public slots:
     void wave_socket_SendMSG();
     void startSample();
     void receiveFilePath(QString);
+    void closeMySocket();
 
 
 private:

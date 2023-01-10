@@ -14,17 +14,20 @@ SOURCES += \
     mainwindow.cpp \
     mychart.cpp \
     qcustomplot.cpp \
-    socket.cpp
+    socket.cpp \
+    waveconfig.cpp
 
 HEADERS += \
     crc.h \
     mainwindow.h \
     mychart.h \
     qcustomplot.h \
-    socket.h
+    socket.h \
+    waveconfig.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    waveconfig.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

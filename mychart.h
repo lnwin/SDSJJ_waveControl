@@ -8,12 +8,13 @@ class myChart:public QThread
 {
     Q_OBJECT
 public:
-    myChart(Ui::MainWindow *ui);
+    myChart();
 
     Ui::MainWindow *mcui;
 public slots:
 
-    void chart_Init();
+    void chart_Init(Ui::MainWindow *ui);
+    void chartUpdate(QList<double>C1,QList<double>C2);
 
 
 };
