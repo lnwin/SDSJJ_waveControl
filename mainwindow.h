@@ -28,6 +28,7 @@ public:
     void startSample();
     void sendFilePath(QString);
     void sendDestroy();
+
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
@@ -38,6 +39,8 @@ private slots:
 
     void on_startSample_clicked();
     void on_fileSaveButton_clicked();
+
+    void receiveCallBack();
 
 private:
     Ui::MainWindow *ui;

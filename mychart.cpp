@@ -67,31 +67,29 @@ void myChart::chart_Init(Ui::MainWindow *ui)
 
 
 }
-void myChart::chartUpdate(QList<double>C1,QList<double>C2)
+void myChart::chartUpdate(QList<double>C1,QList<double>C2,QList<QString>range)
 {
 
-
-
+if((!C1.empty())&&(!C2.empty()))
+{
+    bool YYY;
     int dataLength=C1.size();
     double C1max = *std::max_element(std::begin(C1), std::end(C1));
     double C1min = *std::min_element(std::begin(C1), std::end(C1));
     double C2max = *std::max_element(std::begin(C2), std::end(C2));
     double C2min = *std::min_element(std::begin(C2), std::end(C2));
-
-//        mcui->channel1->yAxis->setRange(4000, 4300);
-//        mcui->channel1->xAxis->setRange(0, 100);
-//        mcui->channel2->yAxis->setRange(3000, 8200);
-//        mcui->channel2->xAxis->setRange(0, 100);
-
+    int xStart=(range[0].split("|")[1].toInt(&YYY));
+    int xEnd=(range[0].split("|")[2].toInt(&YYY));//本地是4，实际是2
     qDebug()<<"dataLength"<<dataLength;
-    qDebug()<<"C1max"<<C1max;
-    qDebug()<<"C1min"<<C1min;
+    qDebug()<<"range"<<range;
+    qDebug()<<"xStart"<<xStart;
+    qDebug()<<"xEnd"<<xEnd;
     qDebug()<<"C2max"<<C2max;
     qDebug()<<"C2min"<<C2min;
 
-    mcui->channel1->yAxis->setRange(C1min, C1max);
+    mcui->channel1->yAxis->setRange(C1min-10, C1max+10);
     mcui->channel1->xAxis->setRange(0, dataLength);
-    mcui->channel2->yAxis->setRange(C2min, C2max);
+    mcui->channel2->yAxis->setRange(C2min-10, C2max+10);
     mcui->channel2->xAxis->setRange(0, dataLength);
     QVector<double> myX(dataLength);
     QVector<double> myC1Y(dataLength);
@@ -102,12 +100,14 @@ void myChart::chartUpdate(QList<double>C1,QList<double>C2)
        myC1Y[i]=C1[i];
        myC2Y[i]=C2[i];
    }
-   mcui->channel1->graph()->setData(myX,myC1Y);
+   mcui->channel1->graph()->setData(myX,myC1Y);   
+   mcui->channel1->graph()->setName( QString::number(xStart,10)+"k--"+QString::number(xEnd,10)+ "k波形图");
    mcui->channel1->replot();
    mcui->channel2->graph()->setData(myX,myC2Y);
+   mcui->channel2->graph()->setName( QString::number(xStart,10)+"k--"+QString::number(xEnd,10)+ "k波形图");
    mcui->channel2->replot();
 
-
+}
 
 
 

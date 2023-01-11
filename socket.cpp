@@ -89,7 +89,7 @@ bool socket_SYS::server_New_Connect()
                QString mymsg =time.toString("yyyy-MM-dd hh:mm:ss  ")+"声学网络连接失败!";
                mui->textEdit->append(mymsg);
                mui->textEdit->moveCursor(QTextCursor::Down);
-               // qDebug()<<waveClient;
+               //qDebug()<<waveClient;
                return false;
            }
            else
@@ -118,8 +118,14 @@ void socket_SYS::wave_socket_Read_Data()
     QByteArray waveData = waveClient->readAll();
     char *myData = waveData.data();
     QString str;
+
     str = QString::fromLocal8Bit(myData);
-    qDebug()<<str;
+   // qDebug()<<"origin===="<<str;
+    if(str=="YES")
+    {
+        emit sendCallBack();
+
+    }
     if(noMode)
     {
         QString strHead;
@@ -131,13 +137,19 @@ void socket_SYS::wave_socket_Read_Data()
            mui->textEdit->append(mymsg);
            mui->textEdit->moveCursor(QTextCursor::Down);
            mui->textEdit->update();
+           Range=str;
            isCurrentData=true;
            noMode=false;
-           if(str.size()>10)
-           {
-               str.remove(0,7);
-               currentdataStream+=str;
-           }
+           fileKeyMSG=str.split("&")[1];
+           qDebug()<<"fileKeyMSG===="<<fileKeyMSG;
+//           if(str.size()>10)
+//           {
+//              str.remove(0,11);
+//               currentdataStream+=str;
+//           }
+
+
+
 
         }
         else if (strHead=="#####")
@@ -158,35 +170,41 @@ void socket_SYS::wave_socket_Read_Data()
         }
 
     }
-
     else
     {
          QString strTips;
          strTips=str.right(7);
+
         if(isCurrentData)
         {
-               qDebug()<<strTips;
-            currentdataStream+=str;
-            //if(strTips=="&&&&&\r\n")// 实际使用
-            if(strTips=="&&&\\r\\n")//本地测试用
+            QString strHead=str.left(5);
+            if(!(strHead=="$$$$$"))
             {
-                isCurrentData=false;
-                noMode=true;
-                QDateTime time = QDateTime::currentDateTime();
-                QString mymsg =time.toString("yyyy-MM-dd hh:mm:ss  ")+"实时波形接收结束!";
-                mui->textEdit->append(mymsg);
-                mui->textEdit->moveCursor(QTextCursor::Down);
-                mui->textEdit->update();
-                QString finalcurrentdataStream=currentdataStream.remove(currentdataStream.indexOf("&"),9);//本地测试是9，实际需要改成7
-                analyzeCurrentData(finalcurrentdataStream);
-                currentdataStream.clear();
+                qDebug()<<"strTips===="<<strTips;
+                qDebug()<<" currentdataStream+=str===="<<str;
+                currentdataStream+=str;
+                if(strTips=="&&&&&\r\n")// 实际使用
+                //if(strTips=="&&&\\r\\n")//本地测试用
+                {
+                    isCurrentData=false;
+                    noMode=true;
+                    QDateTime time = QDateTime::currentDateTime();
+                    QString mymsg =time.toString("yyyy-MM-dd hh:mm:ss  ")+"实时波形接收结束!";
+                    mui->textEdit->append(mymsg);
+                    mui->textEdit->moveCursor(QTextCursor::Down);
+                    mui->textEdit->update();
+                    QString finalcurrentdataStream=currentdataStream.remove(currentdataStream.indexOf("&"),7);//本地测试是9，实际需要改成7
+                    analyzeCurrentData(finalcurrentdataStream,Range);
+                    currentdataStream.clear();
+                }
             }
+
         }
         else if (isFileData)
         {
             filsedataStream+=str;
-            // if(strTips=="&&&&&\r\n") 实际使用
-             if(strTips=="&&&&&\r\n")//本地测试用
+             if(strTips=="&&&&&\r\n") //实际使用
+            // if(strTips=="&&&&&\r\n")//本地测试用
             {
                 isCurrentData=false;
                 noMode=true;
@@ -283,35 +301,39 @@ void socket_SYS::receiveFilePath(QString filePath)
     myFilePath = filePath;
 }
 
-void socket_SYS::analyzeCurrentData(QString cd)
+void socket_SYS::analyzeCurrentData(QString cd,QString head)
 {
     QList<double>channal_1;
-    QList<double>channal_2;
-    QList<QString>cdList=cd.split(" ");
-    //qDebug()<<"cdList"<<cdList;
+    QList<double>channal_2;    
+    QList<QString>cdList=cd.split("\r\n");
+    QList<QString>myRange=head.split("&");
+    qDebug()<<"cd=============="<<cd;
+    qDebug()<<"cdList=============="<<cdList;
     bool ok;
-    int countN=cdList.size()/2;
-     for(int i=0;i<countN;i++)
+    int countN=cdList.size();
+     for(int i=0;i<countN-1;i++)
      {
-        channal_1.append(cdList[i*2].toDouble(&ok));
-        channal_2.append(cdList[(i*2)+1].chopped(4).toDouble(&ok));//本地测试是4，实际需要改成2
+        channal_1.append(cdList[i].split(" ")[0].toDouble(&ok));
+        channal_2.append(cdList[i].split(" ")[1].toDouble(&ok));
      }
     //channal_1.removeFirst();
-    emit sendData2Chart(channal_1,channal_2);
+    emit sendData2Chart(channal_1,channal_2,myRange);
     qDebug()<<"channal_1=========="<<channal_1;
     qDebug()<<"channal_2=========="<<channal_2;
 }
 void socket_SYS::saveFileData(QString fd)
 {
+        fileKeyMSG+=fd;
         QDateTime time = QDateTime::currentDateTime();
         QString myTime =time.toString("yyyy-MM-dd_hh_mm_ss");
         QFile file(myFilePath+myTime+".txt");
         if(file.open(QIODevice::WriteOnly |QIODevice::Text))
         {
             QTextStream stream(&file);
-            stream<<fd<<"\n";
+            stream<<fileKeyMSG<<"\n";
             file.close();
         }
+        fileKeyMSG.clear();
 
 };
 

@@ -17,9 +17,10 @@ MainWindow::MainWindow(QWidget *parent)
        connect(this,SIGNAL(startSample()),waveSocket,SLOT (startSample()));
        connect(this,SIGNAL(sendDestroy()),waveSocket,SLOT (closeMySocket()));
        connect(this,SIGNAL(sendFilePath(QString)),waveSocket,SLOT (receiveFilePath(QString)));
+       connect(waveSocket,SIGNAL(sendCallBack()),this,SLOT (receiveCallBack()));
        waveSocket->moveToThread(waveSocketThread);
        waveSocketThread->start();
-       connect(waveSocket,SIGNAL(sendData2Chart(QList<double>,QList<double>)),waveChart,SLOT (chartUpdate(QList<double>,QList<double>)));
+       connect(waveSocket,SIGNAL(sendData2Chart(QList<double>,QList<double>,QList<QString>)),waveChart,SLOT (chartUpdate(QList<double>,QList<double>,QList<QString>)));
        emit socketInit();
 
 
@@ -114,4 +115,10 @@ void MainWindow::on_fileSaveButton_clicked()
 
        }
 }
-
+  void MainWindow::receiveCallBack()
+  {
+      QMessageBox msgBox;
+      msgBox.setWindowTitle("接收反馈");
+      msgBox.setText("指令下发成功！");
+      msgBox.exec();
+  }

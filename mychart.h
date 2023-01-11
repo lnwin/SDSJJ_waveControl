@@ -14,7 +14,7 @@ public:
 public slots:
 
     void chart_Init(Ui::MainWindow *ui);
-    void chartUpdate(QList<double>C1,QList<double>C2);
+    void chartUpdate(QList<double>C1,QList<double>C2,QList<QString>range);
 
 
 };

@@ -12,6 +12,7 @@
 #include <QFile>
 #include <QTime>
 #include <QDateTime>
+#include <QMessageBox>
 class socket_SYS : public QObject
 {
     Q_OBJECT
@@ -31,7 +32,8 @@ public:
 signals:
   void sendSocketState2T(QString);
   void sendcontrolMSG2T(QVariantList val);
-  void sendData2Chart(QList<double>C1,QList<double>C2);
+  void sendData2Chart(QList<double>C1,QList<double>C2,QList<QString>range);
+  void sendCallBack();
 public slots:
     void socket_Int();
     bool socket_Listening();
@@ -52,8 +54,9 @@ private:
     bool isFileData=false;
     QString currentdataStream;
     QString filsedataStream;
-
-    void analyzeCurrentData(QString);
+    QString Range;
+    QString fileKeyMSG;
+    void analyzeCurrentData(QString,QString);
     void saveFileData(QString);
 };
 
