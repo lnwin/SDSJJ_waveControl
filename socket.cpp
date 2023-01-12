@@ -195,6 +195,7 @@ void socket_SYS::wave_socket_Read_Data()
                     mui->textEdit->update();
                     QString finalcurrentdataStream=currentdataStream.remove(currentdataStream.indexOf("&"),7);//本地测试是9，实际需要改成7
                     analyzeCurrentData(finalcurrentdataStream,Range);
+                    saveFileData(finalcurrentdataStream);
                     currentdataStream.clear();
                 }
             }
@@ -318,22 +319,30 @@ void socket_SYS::analyzeCurrentData(QString cd,QString head)
      }
     //channal_1.removeFirst();
     emit sendData2Chart(channal_1,channal_2,myRange);
-    qDebug()<<"channal_1=========="<<channal_1;
-    qDebug()<<"channal_2=========="<<channal_2;
+    //qDebug()<<"channal_1=========="<<channal_1;
+   // qDebug()<<"channal_2=========="<<channal_2;
 }
 void socket_SYS::saveFileData(QString fd)
 {
+        fileKeyMSG+="\r\n";
         fileKeyMSG+=fd;
         QDateTime time = QDateTime::currentDateTime();
         QString myTime =time.toString("yyyy-MM-dd_hh_mm_ss");
-        QFile file(myFilePath+myTime+".txt");
-        if(file.open(QIODevice::WriteOnly |QIODevice::Text))
+        QFile file(myFilePath+"/"+myTime+".txt");
+        if(!file.open(QIODevice::WriteOnly |QIODevice::Text))
         {
+           qDebug()<<"save faile";
+        }
+        else
+        {
+            qDebug()<<"save ok";
             QTextStream stream(&file);
-            stream<<fileKeyMSG<<"\n";
+            stream<<fileKeyMSG;
             file.close();
         }
         fileKeyMSG.clear();
+
+
 
 };
 
