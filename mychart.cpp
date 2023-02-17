@@ -58,7 +58,7 @@ void myChart::chart_Init(Ui::MainWindow *ui)
           mcui->channel2->addGraph();
           mcui->channel2->graph()->setName("波形图");
           QPen graphPen2;
-          graphPen2.setColor(QColor(16,177,171));
+          graphPen2.setColor(QColor(160,20,200));
           graphPen2.setWidthF(2);
            mcui->channel2->graph()->setPen(graphPen2);
          // Chart_Mupdata(ui);

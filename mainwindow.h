@@ -5,6 +5,7 @@
 #include <QThread>
 #include <mychart.h>
 #include <qfiledialog.h>
+#include <waveconfig.h>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -20,6 +21,7 @@ public:
     QThread *waveChartThread ;
     myChart *waveChart;
     socket_SYS *waveSocket;
+    waveConfig *WC;
 
  signals:
     void socketInit();
@@ -39,7 +41,7 @@ private slots:
 
     void on_startSample_clicked();
     void on_fileSaveButton_clicked();
-
+    void on_pushButton_4_clicked();
     void receiveCallBack();
 
 private:

@@ -1,8 +1,8 @@
-#ifndef WAVECONFIG_H
+﻿#ifndef WAVECONFIG_H
 #define WAVECONFIG_H
-
+#include <QComboBox>
 #include <QDialog>
-
+#include <QStandardItemModel>
 namespace Ui {
 class waveConfig;
 }
@@ -14,9 +14,27 @@ class waveConfig : public QDialog
 public:
     explicit waveConfig(QWidget *parent = nullptr);
     ~waveConfig();
+public slots:
+
+   // void receiveConfigMSG(QList<float>MSG);
+signals:
+
+    void sendMSG2(QList<QList<float>>);
+
+private slots:
+    void on_addOrder_clicked();
+
+    void on_finishWrite_clicked();
+
+    void on_deleteOrder_clicked();
 
 private:
     Ui::waveConfig *ui;
+    QStandardItemModel* TVmodel;
+    void modelinit();
+    int OrderIndex=0;
+
+    void checkAllTable();
 };
 
 #endif // WAVECONFIG_H

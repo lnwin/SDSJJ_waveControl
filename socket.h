@@ -46,6 +46,9 @@ public slots:
     void closeMySocket();
 
 
+private slots:
+
+
 private:
 
     QString myFilePath ="D:/waveFiles";

@@ -6,10 +6,13 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
        ui->setupUi(this);
+
+       //this->model = new QStandardItemModel;   //创建一个标准的条目模型
        qDebug()<<"main thread"<<QThread::currentThread();
        waveSocketThread =new QThread();
        waveChartThread=new QThread();
        waveSocket =new socket_SYS(ui);
+       WC=new waveConfig();
        waveChart=new myChart();
        waveChart->chart_Init(ui);
        connect(this,SIGNAL(socketInit()),waveSocket,SLOT (socket_Int()));
@@ -121,4 +124,8 @@ void MainWindow::on_fileSaveButton_clicked()
       msgBox.setWindowTitle("接收反馈");
       msgBox.setText("指令下发成功！");
       msgBox.exec();
+  }
+  void MainWindow::on_pushButton_4_clicked()
+  {
+    WC->show();
   }
