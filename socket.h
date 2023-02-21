@@ -44,6 +44,7 @@ public slots:
     void startSample();
     void receiveFilePath(QString);
     void closeMySocket();
+    void receivedMutlOrder(QList<QList<int>>);
 
 
 private slots:

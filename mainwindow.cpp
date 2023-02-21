@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
        connect(this,SIGNAL(sendDestroy()),waveSocket,SLOT (closeMySocket()));
        connect(this,SIGNAL(sendFilePath(QString)),waveSocket,SLOT (receiveFilePath(QString)));
        connect(waveSocket,SIGNAL(sendCallBack()),this,SLOT (receiveCallBack()));
+       connect(WC,SIGNAL(sendMSG2(QList<QList<int>>)),waveSocket,SLOT (receivedMutlOrder(QList<QList<int>>)));
        waveSocket->moveToThread(waveSocketThread);
        waveSocketThread->start();
        connect(waveSocket,SIGNAL(sendData2Chart(QList<double>,QList<double>,QList<QString>)),waveChart,SLOT (chartUpdate(QList<double>,QList<double>,QList<QString>)));

@@ -249,7 +249,7 @@ QByteArray socket_SYS::readUIParameter(int type)
     QByteArray UIParameter;
     UIParameter.resize(13);
 
-     UIParameter[0]=mui->emissionN->currentIndex()+1 ;
+     UIParameter[0]=mui->emissionN->currentIndex()+1;
      UIParameter[1]=int(mui->emissionVoltage->text().toFloat()*10);
      UIParameter[2]=mui->waveformCyclesN->text().toInt();
      UIParameter[3]=int(mui->emissionFrequency->text().toFloat()*10);
@@ -305,7 +305,7 @@ void socket_SYS::receiveFilePath(QString filePath)
 void socket_SYS::analyzeCurrentData(QString cd,QString head)
 {
     QList<double>channal_1;
-    QList<double>channal_2;    
+    QList<double>channal_2;
     QList<QString>cdList=cd.split("\r\n");
     QList<QString>myRange=head.split("&");
     qDebug()<<"cd=============="<<cd;
@@ -353,4 +353,63 @@ void socket_SYS::closeMySocket()
 };
 
 
+void socket_SYS::receivedMutlOrder(QList<QList<int>> myList)
+{
 
+
+
+    int orderCount=myList.count();
+
+    QByteArray ORG;
+
+    ORG.resize((orderCount*12));
+    qDebug()<<"ORG.count()"<<ORG.length();
+    for(int i=0;i<orderCount;i++)
+    {
+        for(int j=0;j<12;j++)
+        {
+
+          ORG[i*12+j]=myList.at(i).at(j);
+         // qDebug()<<"ORG==N"<<i*12+j;
+         // qDebug()<<"current==N"<<myList.at(i).at(j);
+        }
+
+    }
+    ORG.append(orderCount);
+    ORG.append(0x04);
+    qDebug()<<"ORG.count()"<<ORG.length();
+    uint16_t C3=CRC->ModbusCRC16(ORG);
+    QByteArray MSG;
+    MSG.resize(2);
+    MSG[1]=C3>>8;//高位在后
+    MSG[0]=(C3<<8)>>8;
+    MSG.append(ORG);
+    waveClient->write(MSG);
+
+    qDebug()<<"MSG.count()"<<MSG.length();
+    qDebug()<<MSG.toHex();
+
+
+
+
+
+
+
+
+
+
+
+    //       UIParameter[0]=mui->emissionN->currentIndex()+1;
+    //       UIParameter[1]=int(mui->emissionVoltage->text().toFloat()*10);
+    //       UIParameter[2]=mui->waveformCyclesN->text().toInt();
+    //       UIParameter[3]=int(mui->emissionFrequency->text().toFloat()*10);
+    //       UIParameter[4]=mui->emissionWavePool->currentIndex()+1;
+    //       UIParameter[5]=mui->emissionInterval->text().toInt();
+    //       UIParameter[6]=mui->emissionCount->text().toInt();
+    //       UIParameter[7]=mui->amplingLength->text().toInt();
+    //       UIParameter[8]=mui->amplingFrequency->currentIndex()+1;
+    //       UIParameter[9]=mui->gainMultiplier->text().toInt();
+    //       UIParameter[10]=mui->waveGetStart->text().toInt();
+    //       UIParameter[11]=mui->waveGetEnd->text().toInt();
+    //       UIParameter[12]=type;
+};

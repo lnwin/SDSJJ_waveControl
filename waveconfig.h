@@ -19,7 +19,7 @@ public slots:
    // void receiveConfigMSG(QList<float>MSG);
 signals:
 
-    void sendMSG2(QList<QList<float>>);
+    void sendMSG2(QList<QList<int>>);
 
 private slots:
     void on_addOrder_clicked();
@@ -33,6 +33,9 @@ private:
     QStandardItemModel* TVmodel;
     void modelinit();
     int OrderIndex=0;
+//    QComboBox* waveType = new QComboBox();
+//     QComboBox* channel = new QComboBox();
+//     QComboBox* channel2 = new QComboBox();
 
     void checkAllTable();
 };
