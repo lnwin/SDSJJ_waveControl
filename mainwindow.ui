@@ -40,26 +40,13 @@
      <attribute name="title">
       <string>工作模式</string>
      </attribute>
-     <widget class="QPushButton" name="pushButton_3">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>590</y>
-        <width>211</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>指令下发</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="pushButton_4">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>540</y>
+        <y>130</y>
         <width>211</width>
-        <height>41</height>
+        <height>71</height>
        </rect>
       </property>
       <property name="text">
@@ -70,39 +57,13 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>640</y>
+        <y>240</y>
         <width>211</width>
-        <height>41</height>
+        <height>71</height>
        </rect>
       </property>
       <property name="text">
        <string>开始发射</string>
-      </property>
-     </widget>
-     <widget class="QTableView" name="tableView">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>30</y>
-        <width>211</width>
-        <height>501</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_13">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>53</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>波形列表</string>
       </property>
      </widget>
     </widget>

@@ -30,6 +30,7 @@ public:
     void startSample();
     void sendFilePath(QString);
     void sendDestroy();
+    void readConfig();
 
 private slots:
     void on_pushButton_clicked();
@@ -43,6 +44,7 @@ private slots:
     void on_fileSaveButton_clicked();
     void on_pushButton_4_clicked();
     void receiveCallBack();
+    void receiveConfigMSG(QList<QString>);
 
 private:
     Ui::MainWindow *ui;

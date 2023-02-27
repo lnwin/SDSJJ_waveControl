@@ -34,6 +34,7 @@ signals:
   void sendcontrolMSG2T(QVariantList val);
   void sendData2Chart(QList<double>C1,QList<double>C2,QList<QString>range);
   void sendCallBack();
+  void sendConfig2M(QList<QString>);
 public slots:
     void socket_Int();
     bool socket_Listening();
@@ -45,10 +46,13 @@ public slots:
     void receiveFilePath(QString);
     void closeMySocket();
     void receivedMutlOrder(QList<QList<int>>);
+    void readMyConfig();
 
 
 private slots:
 
+
+    void on_pushButton_clicked();
 
 private:
 
@@ -62,6 +66,7 @@ private:
     QString fileKeyMSG;
     void analyzeCurrentData(QString,QString);
     void saveFileData(QString);
+    QList<QString>configMSG;
 };
 
 #endif // SOCKET_H

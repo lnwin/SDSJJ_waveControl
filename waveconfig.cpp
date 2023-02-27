@@ -57,9 +57,6 @@ void waveConfig::on_addOrder_clicked()
     TVmodel->setItem(OrderIndex, 10, new QStandardItem("8"));
     TVmodel->setItem(OrderIndex, 11, new QStandardItem("9"));
 
-
-
-
      OrderIndex+=1;
 
 }

@@ -118,8 +118,57 @@ void socket_SYS::wave_socket_Read_Data()
     QByteArray waveData = waveClient->readAll();
     char *myData = waveData.data();
     QString str;
+    QString myHead;
 
     str = QString::fromLocal8Bit(myData);
+    myHead=str.left(8);
+
+    if(myHead=="YES@@@@@")
+    {
+
+
+        configMSG.append(QString::number( str.split(" ")[1].toInt(nullptr, 16)));
+        configMSG.append(QString::number( float(str.split(" ")[2].toInt(nullptr, 16))*0.1));
+        configMSG.append(QString::number( str.split(" ")[3].toInt(nullptr, 16)));
+        configMSG.append(QString::number( float(str.split(" ")[4].toInt(nullptr, 16))*0.1));
+        if(str.split(" ")[5].toInt(nullptr, 16)==1)
+        {
+            configMSG.append("高斯波");
+        }
+        else
+        {
+            configMSG.append("正弦波");
+        }
+        configMSG.append(QString::number( str.split(" ")[6].toInt(nullptr, 16)));
+        configMSG.append(QString::number( str.split(" ")[7].toInt(nullptr, 16)));
+        configMSG.append(QString::number( str.split(" ")[8].toInt(nullptr, 16)));
+
+        if(str.split(" ")[9].toInt(nullptr, 16)==1)
+        {
+            configMSG.append("5MHz");
+        }
+        else if(str.split(" ")[9].toInt(nullptr, 16)==2)
+        {
+            configMSG.append("10MHz");
+        }
+        else if(str.split(" ")[9].toInt(nullptr, 16)==3)
+        {
+            configMSG.append("15MHz");
+        }
+        else if(str.split(" ")[9].toInt(nullptr, 16)==4)
+        {
+            configMSG.append("20MHz");
+        }
+
+        configMSG.append(QString::number( str.split(" ")[10].toInt(nullptr, 16)));
+        configMSG.append(QString::number( str.split(" ")[11].toInt(nullptr, 16)));
+        configMSG.append(QString::number( str.split(" ")[12].toInt(nullptr, 16)));
+
+        emit sendConfig2M(configMSG);
+        configMSG.clear();
+       // qDebug()<<"str.split("")[4].toDouble()===="<<  QString::number( float(str.split(" ")[2].toInt(nullptr, 16))*0.1) ;
+    }
+
    // qDebug()<<"origin===="<<str;
     if(str=="YES")
     {
@@ -141,7 +190,7 @@ void socket_SYS::wave_socket_Read_Data()
            isCurrentData=true;
            noMode=false;
            fileKeyMSG=str.split("&")[1];
-           qDebug()<<"fileKeyMSG===="<<fileKeyMSG;
+       //    qDebug()<<"fileKeyMSG===="<<fileKeyMSG;
 //           if(str.size()>10)
 //           {
 //              str.remove(0,11);
@@ -180,8 +229,8 @@ void socket_SYS::wave_socket_Read_Data()
             QString strHead=str.left(5);
             if(!(strHead=="$$$$$"))
             {
-                qDebug()<<"strTips===="<<strTips;
-                qDebug()<<" currentdataStream+=str===="<<str;
+               // qDebug()<<"strTips===="<<strTips;
+              //  qDebug()<<" currentdataStream+=str===="<<str;
                 currentdataStream+=str;
                 if(strTips=="&&&&&\r\n")// 实际使用
                 //if(strTips=="&&&\\r\\n")//本地测试用
@@ -221,17 +270,6 @@ void socket_SYS::wave_socket_Read_Data()
         }
     }
 
-
-
-//    QByteArray waveDataC1;is
-//    waveDataC1[0]= waveData.at(6);
-//    waveDataC1[1]= waveData.at(7);
-//    int C1=waveDataC1.toHex().toInt(0,16);
-//    QByteArray waveDataforcheck=waveData.remove(6,2);
-//    uint16_t C2=CRC->ModbusCRC16(waveDataforcheck);
-
-
-
 }
 void socket_SYS::wave_socket_Disconnected()
 {
@@ -240,9 +278,6 @@ void socket_SYS::wave_socket_Disconnected()
      mui->textEdit->append(mymsg);
      mui->textEdit->moveCursor(QTextCursor::Down);
 }
-
-
-
 
 QByteArray socket_SYS::readUIParameter(int type)
 {
@@ -265,6 +300,23 @@ QByteArray socket_SYS::readUIParameter(int type)
     // UIParameter.resize(sizeof(UIParameterF));
     // memcpy(UIParameter.data(), &UIParameterF, sizeof(UIParameter));
      return UIParameter;
+
+};
+
+void socket_SYS::readMyConfig()
+{
+    QByteArray ORG;
+    ORG.resize(2);
+    ORG[0]=1;
+    ORG[1]=5;
+    uint16_t C3=CRC->ModbusCRC16(ORG);
+    QByteArray MSG;
+    MSG.resize(2);
+    MSG[1]=C3>>8;//高位在后
+    MSG[0]=(C3<<8)>>8;
+    MSG.append(ORG);
+    waveClient->write(MSG);
+    qDebug()<<MSG.toHex();
 
 };
 void socket_SYS::wave_socket_SendMSG()
@@ -308,8 +360,8 @@ void socket_SYS::analyzeCurrentData(QString cd,QString head)
     QList<double>channal_2;
     QList<QString>cdList=cd.split("\r\n");
     QList<QString>myRange=head.split("&");
-    qDebug()<<"cd=============="<<cd;
-    qDebug()<<"cdList=============="<<cdList;
+  //  qDebug()<<"cd=============="<<cd;
+   // qDebug()<<"cdList=============="<<cdList;
     bool ok;
     int countN=cdList.size();
      for(int i=0;i<countN-1;i++)
@@ -363,7 +415,7 @@ void socket_SYS::receivedMutlOrder(QList<QList<int>> myList)
     QByteArray ORG;
 
     ORG.resize((orderCount*12));
-    qDebug()<<"ORG.count()"<<ORG.length();
+  //  qDebug()<<"ORG.count()"<<ORG.length();
     for(int i=0;i<orderCount;i++)
     {
         for(int j=0;j<12;j++)
@@ -413,3 +465,9 @@ void socket_SYS::receivedMutlOrder(QList<QList<int>> myList)
     //       UIParameter[11]=mui->waveGetEnd->text().toInt();
     //       UIParameter[12]=type;
 };
+
+void socket_SYS::on_pushButton_clicked()
+{
+
+}
+

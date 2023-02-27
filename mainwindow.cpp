@@ -19,13 +19,18 @@ MainWindow::MainWindow(QWidget *parent)
        connect(this,SIGNAL(sendMSG()),waveSocket,SLOT (wave_socket_SendMSG()));
        connect(this,SIGNAL(startSample()),waveSocket,SLOT (startSample()));
        connect(this,SIGNAL(sendDestroy()),waveSocket,SLOT (closeMySocket()));
+       connect(this,SIGNAL(readConfig()),waveSocket,SLOT (readMyConfig()));
        connect(this,SIGNAL(sendFilePath(QString)),waveSocket,SLOT (receiveFilePath(QString)));
        connect(waveSocket,SIGNAL(sendCallBack()),this,SLOT (receiveCallBack()));
+       connect(waveSocket,SIGNAL(sendConfig2M(QList<QString>)),this,SLOT (receiveConfigMSG(QList<QString>)));
+
+
        connect(WC,SIGNAL(sendMSG2(QList<QList<int>>)),waveSocket,SLOT (receivedMutlOrder(QList<QList<int>>)));
        waveSocket->moveToThread(waveSocketThread);
        waveSocketThread->start();
        connect(waveSocket,SIGNAL(sendData2Chart(QList<double>,QList<double>,QList<QString>)),waveChart,SLOT (chartUpdate(QList<double>,QList<double>,QList<QString>)));
        emit socketInit();
+
 
 
 }
@@ -44,7 +49,7 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-
+    emit readConfig();
 }
 void MainWindow::on_gainMultiplier_editingFinished()
 {
@@ -130,3 +135,13 @@ void MainWindow::on_fileSaveButton_clicked()
   {
     WC->show();
   }
+void MainWindow::receiveConfigMSG(QList<QString> mylist)
+{
+    QDateTime time = QDateTime::currentDateTime();
+    QString myTime =time.toString("yyyy-MM-dd hh:mm:ss")+"\r";
+    QString myMsG;
+    myMsG="当前配置---发射通道："+mylist[0]+"  发射电压："+mylist[1]+"v  循环周期："+mylist[2]+"次  发射频率："+mylist[3]+"kHZ  发射波形："+mylist[4]
+            +"  发射间隔："+mylist[5]+"秒  发射次数："+mylist[6]+"  采样长度："+mylist[7]+"K  采样频率："+mylist[8]+"  增益系数："+mylist[9]+"  采样起点："+mylist[10]+"K  采样终点："+mylist[11]+"K";
+    myTime+=myMsG;
+    ui->readParameter->setText(myTime);
+};
