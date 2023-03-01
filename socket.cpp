@@ -282,7 +282,7 @@ void socket_SYS::wave_socket_Disconnected()
 QByteArray socket_SYS::readUIParameter(int type)
 {
     QByteArray UIParameter;
-    UIParameter.resize(13);
+    UIParameter.resize(14);
 
      UIParameter[0]=mui->emissionN->currentIndex()+1;
      UIParameter[1]=int(mui->emissionVoltage->text().toFloat()*10);
@@ -296,7 +296,8 @@ QByteArray socket_SYS::readUIParameter(int type)
      UIParameter[9]=mui->gainMultiplier->text().toInt();
      UIParameter[10]=mui->waveGetStart->text().toInt();
      UIParameter[11]=mui->waveGetEnd->text().toInt();
-     UIParameter[12]=type;
+     UIParameter[12]=mui->powercomboBox->currentIndex()+1;
+     UIParameter[13]=type;
     // UIParameter.resize(sizeof(UIParameterF));
     // memcpy(UIParameter.data(), &UIParameterF, sizeof(UIParameter));
      return UIParameter;

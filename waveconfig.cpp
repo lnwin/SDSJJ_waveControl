@@ -16,7 +16,7 @@ void waveConfig::modelinit()
 {
     // set columns
         QStringList columnTitles;
-        columnTitles  << "发射波形" << "发射频率(KHz)" << "发射电压"<< "波形周期数"<< "发射换能器通道"<< "发射间隔(s)"<< "发射次数"<<"采样频率(MSPS)"<<"固定增益倍数"<<"采样长度(K)"<<"上传波形起点(k)"<<"上传波形终点(k)";
+        columnTitles  << "发射波形" << "发射频率(KHz)" << "发射电压"<< "波形周期数"<< "发射换能器通道"<< "发射间隔(s)"<< "发射次数"<<"采样频率(MSPS)"<<"固定增益倍数"<<"采样长度(K)"<<"上传波形起点(k)"<<"上传波形终点(k)"<<"功放功率(k)";
         TVmodel->setHorizontalHeaderLabels(columnTitles);
         this->ui->tableView->setColumnWidth(0, 70);
 
@@ -32,6 +32,7 @@ void waveConfig::on_addOrder_clicked()
     QComboBox* waveType = new QComboBox();
     QComboBox* channel = new QComboBox();
     QComboBox* channel2 = new QComboBox();
+    QComboBox* channel3 = new QComboBox();
 
 
     TVmodel->setItem(OrderIndex, 0, new QStandardItem(""));
@@ -56,6 +57,8 @@ void waveConfig::on_addOrder_clicked()
     TVmodel->setItem(OrderIndex, 9, new QStandardItem("7"));
     TVmodel->setItem(OrderIndex, 10, new QStandardItem("8"));
     TVmodel->setItem(OrderIndex, 11, new QStandardItem("9"));
+    channel3->addItems({"低档", "中档", "高档"});
+    ui->tableView->setIndexWidget(TVmodel->index(OrderIndex, 12), channel3);
 
      OrderIndex+=1;
 
@@ -71,11 +74,10 @@ void waveConfig::on_deleteOrder_clicked()
 
 void waveConfig::on_finishWrite_clicked()
 {
-    QWidget *widgetQWidget =ui->tableView->indexWidget(TVmodel->index(0, 4));
-    QComboBox *combox=(QComboBox*)widgetQWidget;
-    qDebug()<<combox->currentIndex() ;
+   // QWidget *widgetQWidget =ui->tableView->indexWidget(TVmodel->index(0, 4));
+   // QComboBox *combox=(QComboBox*)widgetQWidget;
+   // qDebug()<<combox->currentIndex() ;
      checkAllTable();
-
 }
 
 void waveConfig::checkAllTable()
@@ -106,6 +108,8 @@ void waveConfig::checkAllTable()
        QComboBox *combox2=(QComboBox*)widgetQWidget2;
        QWidget *widgetQWidget3 =ui->tableView->indexWidget(TVmodel->index(i, 7));
        QComboBox *combox3=(QComboBox*)widgetQWidget3;
+       QWidget *widgetQWidget4 =ui->tableView->indexWidget(TVmodel->index(i, 12));
+       QComboBox *combox4=(QComboBox*)widgetQWidget4;
 
 
        linshiList.append(combox2->currentIndex()+1);//发射换能器通道
@@ -120,6 +124,7 @@ void waveConfig::checkAllTable()
        linshiList.append(TVmodel->data(TVmodel->index(i,8)).toInt());//固定增益倍数
        linshiList.append(TVmodel->data(TVmodel->index(i,10)).toInt());//上传波形起点
        linshiList.append(TVmodel->data(TVmodel->index(i,11)).toInt());//上传波形终点
+       linshiList.append(combox4->currentIndex()+1);//功放功率
 
 
 //       UIParameter[0]=mui->emissionN->currentIndex()+1;
