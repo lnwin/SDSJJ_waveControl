@@ -44,7 +44,6 @@ void waveConfig::on_addOrder_clicked()
     TVmodel->setItem(OrderIndex, 3, new QStandardItem("3"));
 
 
-
     channel->addItems({"1", "2", "3", "4", "5"});
     ui->tableView->setIndexWidget(TVmodel->index(OrderIndex, 4), channel);
     TVmodel->setItem(OrderIndex, 5, new QStandardItem("4"));
@@ -145,8 +144,7 @@ void waveConfig::checkAllTable()
     }
 
     emit sendMSG2(orderList);
-
-    qDebug()<<"sendMSG2(orderList) "<<orderList;
+    //qDebug()<<"sendMSG2(orderList) "<<orderList;
 
 };
 

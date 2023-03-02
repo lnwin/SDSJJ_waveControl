@@ -415,14 +415,14 @@ void socket_SYS::receivedMutlOrder(QList<QList<int>> myList)
 
     QByteArray ORG;
 
-    ORG.resize((orderCount*12));
+    ORG.resize((orderCount*13));
   //  qDebug()<<"ORG.count()"<<ORG.length();
     for(int i=0;i<orderCount;i++)
     {
-        for(int j=0;j<12;j++)
+        for(int j=0;j<13;j++)
         {
 
-          ORG[i*12+j]=myList.at(i).at(j);
+          ORG[i*13+j]=myList.at(i).at(j);
          // qDebug()<<"ORG==N"<<i*12+j;
          // qDebug()<<"current==N"<<myList.at(i).at(j);
         }
@@ -430,7 +430,7 @@ void socket_SYS::receivedMutlOrder(QList<QList<int>> myList)
     }
     ORG.append(orderCount);
     ORG.append(0x04);
-    qDebug()<<"ORG.count()"<<ORG.length();
+   // qDebug()<<"ORG.count()"<<ORG.length();
     uint16_t C3=CRC->ModbusCRC16(ORG);
     QByteArray MSG;
     MSG.resize(2);
@@ -439,8 +439,8 @@ void socket_SYS::receivedMutlOrder(QList<QList<int>> myList)
     MSG.append(ORG);
     waveClient->write(MSG);
 
-    qDebug()<<"MSG.count()"<<MSG.length();
-    qDebug()<<MSG.toHex();
+   // qDebug()<<"2CQ==MSG.count()"<<MSG.length();
+   // qDebug()<<MSG.toHex();
 
 
 
