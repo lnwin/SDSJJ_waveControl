@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
        waveSocket =new socket_SYS(ui);
        WC=new waveConfig();
        waveChart=new myChart();
+       myLocal=new LocalLog();
        waveChart->chart_Init(ui);
        connect(this,SIGNAL(socketInit()),waveSocket,SLOT (socket_Int()));
        connect(this,SIGNAL(sendMSG()),waveSocket,SLOT (wave_socket_SendMSG()));
@@ -21,6 +22,10 @@ MainWindow::MainWindow(QWidget *parent)
        connect(this,SIGNAL(sendDestroy()),waveSocket,SLOT (closeMySocket()));
        connect(this,SIGNAL(readConfig()),waveSocket,SLOT (readMyConfig()));
        connect(this,SIGNAL(sendFilePath(QString)),waveSocket,SLOT (receiveFilePath(QString)));
+
+       connect(this,SIGNAL(closeSoundPower()),waveSocket,SLOT (closeSoundPower()));
+       connect(this,SIGNAL(openSoundPower()),waveSocket,SLOT (openSoundPower()));
+
        connect(waveSocket,SIGNAL(sendCallBack()),this,SLOT (receiveCallBack()));
        connect(waveSocket,SIGNAL(sendConfig2M(QList<QString>)),this,SLOT (receiveConfigMSG(QList<QString>)));
 
@@ -31,7 +36,34 @@ MainWindow::MainWindow(QWidget *parent)
        connect(waveSocket,SIGNAL(sendData2Chart(QList<double>,QList<double>,QList<QString>)),waveChart,SLOT (chartUpdate(QList<double>,QList<double>,QList<QString>)));
        emit socketInit();
 
+       connect(ui->actionbackground,SIGNAL(triggered()),this,SLOT(openLocalLog()));
 
+       connect(this,SIGNAL(sendNeedLogFlag(bool)),waveSocket,SLOT(receivedNeedLogFlag(bool)));
+
+       connect(waveSocket,SIGNAL(sendMSG2Log(QString)),myLocal,SLOT(receiveMSG(QString)));
+
+       connect(myLocal,SIGNAL(closeWidget()),waveSocket,SLOT(shutDownFLag()));
+
+
+
+}
+
+
+void MainWindow::openLocalLog()
+{
+    if(!needLog)
+    {
+         myLocal->show();
+         needLog=true;
+         emit sendNeedLogFlag(needLog);
+    }
+
+    else
+    {
+        myLocal->hide();
+        needLog=false;
+        emit sendNeedLogFlag(needLog);
+    }
 
 }
 
@@ -145,3 +177,23 @@ void MainWindow::receiveConfigMSG(QList<QString> mylist)
     myTime+=myMsG;
     ui->readParameter->setText(myTime);
 };
+void MainWindow::on_pushButton_3_clicked()
+{
+   // void closeSoundPower();
+    emit openSoundPower();
+}
+void MainWindow::on_pushButton_6_clicked()
+{
+     emit closeSoundPower();
+}
+
+void MainWindow::on_pushButton_5_clicked()
+{
+    emit openSoundPower();
+}
+
+
+void MainWindow::on_pushButton_7_clicked()
+{
+    emit closeSoundPower();
+}

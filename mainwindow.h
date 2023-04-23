@@ -6,6 +6,7 @@
 #include <mychart.h>
 #include <qfiledialog.h>
 #include <waveconfig.h>
+#include <locallog.h>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -22,6 +23,9 @@ public:
     myChart *waveChart;
     socket_SYS *waveSocket;
     waveConfig *WC;
+    LocalLog *myLocal;
+
+ bool needLog=false;
 
  signals:
     void socketInit();
@@ -31,6 +35,9 @@ public:
     void sendFilePath(QString);
     void sendDestroy();
     void readConfig();
+    void closeSoundPower();
+    void openSoundPower();
+    void sendNeedLogFlag(bool);
 
 private slots:
     void on_pushButton_clicked();
@@ -45,6 +52,11 @@ private slots:
     void on_pushButton_4_clicked();
     void receiveCallBack();
     void receiveConfigMSG(QList<QString>);
+    void on_pushButton_3_clicked();
+    void on_pushButton_5_clicked();
+    void on_pushButton_6_clicked();
+    void on_pushButton_7_clicked();
+    void openLocalLog();
 
 private:
     Ui::MainWindow *ui;

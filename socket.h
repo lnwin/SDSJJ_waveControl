@@ -35,6 +35,8 @@ signals:
   void sendData2Chart(QList<double>C1,QList<double>C2,QList<QString>range);
   void sendCallBack();
   void sendConfig2M(QList<QString>);
+  void sendMSG2Log(QString);
+
 public slots:
     void socket_Int();
     bool socket_Listening();
@@ -47,12 +49,16 @@ public slots:
     void closeMySocket();
     void receivedMutlOrder(QList<QList<int>>);
     void readMyConfig();
-
+    void closeSoundPower();
+    void openSoundPower();
+    void receivedNeedLogFlag(bool);
+    void shutDownFLag();
 
 private slots:
 
 
     void on_pushButton_clicked();
+
 
 private:
 
@@ -67,6 +73,9 @@ private:
     void analyzeCurrentData(QString,QString);
     void saveFileData(QString);
     QList<QString>configMSG;
+    bool needLog();
+    bool needLogFlag=false;
+
 };
 
 #endif // SOCKET_H

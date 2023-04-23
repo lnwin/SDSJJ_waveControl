@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     crc.cpp \
+    locallog.cpp \
     main.cpp \
     mainwindow.cpp \
     mychart.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
 
 HEADERS += \
     crc.h \
+    locallog.h \
     mainwindow.h \
     mychart.h \
     qcustomplot.h \
@@ -26,6 +28,7 @@ HEADERS += \
     waveconfig.h
 
 FORMS += \
+    locallog.ui \
     mainwindow.ui \
     waveconfig.ui
 

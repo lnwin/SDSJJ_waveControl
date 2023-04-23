@@ -121,6 +121,11 @@ void socket_SYS::wave_socket_Read_Data()
     QString myHead;
 
     str = QString::fromLocal8Bit(myData);
+    if(needLog())
+    {
+        emit sendMSG2Log(str);
+    }
+
     myHead=str.left(8);
 
     if(myHead=="YES@@@@@")
@@ -375,6 +380,20 @@ void socket_SYS::analyzeCurrentData(QString cd,QString head)
     //qDebug()<<"channal_1=========="<<channal_1;
    // qDebug()<<"channal_2=========="<<channal_2;
 }
+
+bool socket_SYS::needLog()
+{
+
+    return needLogFlag;
+}
+void socket_SYS::receivedNeedLogFlag(bool TOF)
+{
+     needLogFlag=TOF;
+}
+ void socket_SYS::shutDownFLag()
+ {
+     needLogFlag=false;
+ };
 void socket_SYS::saveFileData(QString fd)
 {
         fileKeyMSG+="\r\n";
@@ -442,16 +461,6 @@ void socket_SYS::receivedMutlOrder(QList<QList<int>> myList)
    // qDebug()<<"2CQ==MSG.count()"<<MSG.length();
    // qDebug()<<MSG.toHex();
 
-
-
-
-
-
-
-
-
-
-
     //       UIParameter[0]=mui->emissionN->currentIndex()+1;
     //       UIParameter[1]=int(mui->emissionVoltage->text().toFloat()*10);
     //       UIParameter[2]=mui->waveformCyclesN->text().toInt();
@@ -471,4 +480,39 @@ void socket_SYS::on_pushButton_clicked()
 {
 
 }
+void socket_SYS::closeSoundPower()
+{
+    QByteArray ORG;
+    ORG.resize(2);
+    ORG[0]=0x02;
+    ORG[1]=0x07;
+    uint16_t C3=CRC->ModbusCRC16(ORG);
+    QByteArray MSG;
+    MSG.resize(2);
+    MSG[1]=C3>>8;//高位在后
+    MSG[0]=(C3<<8)>>8;
+    MSG.append(ORG);
+    waveClient->write(MSG);
+};
+void socket_SYS::openSoundPower()
+{
+    QByteArray ORG;
+    ORG.resize(2);
+    ORG[0]=0x01;
+    ORG[1]=0x07;
+    uint16_t C3=CRC->ModbusCRC16(ORG);
+    QByteArray MSG;
+    MSG.resize(2);
+    MSG[1]=C3>>8;//高位在后
+    MSG[0]=(C3<<8)>>8;
+    MSG.append(ORG);
+    waveClient->write(MSG);
+};
+
+
+
+
+
+
+
 
