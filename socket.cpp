@@ -168,6 +168,7 @@ void socket_SYS::wave_socket_Read_Data()
         configMSG.append(QString::number( str.split(" ")[10].toInt(nullptr, 16)));
         configMSG.append(QString::number( str.split(" ")[11].toInt(nullptr, 16)));
         configMSG.append(QString::number( str.split(" ")[12].toInt(nullptr, 16)));
+        configMSG.append(QString::number( str.split(" ")[13].toInt(nullptr, 16)));
 
         emit sendConfig2M(configMSG);
         configMSG.clear();
