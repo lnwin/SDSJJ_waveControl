@@ -58,6 +58,14 @@ private slots:
     void on_pushButton_7_clicked();
     void openLocalLog();
 
+
+
+    void on_waveformCyclesN_editingFinished();
+
+    void on_emissionCount_editingFinished();
+
+    void on_emissionInterval_editingFinished();
+
 private:
     Ui::MainWindow *ui;
     QString  srcDirPath;

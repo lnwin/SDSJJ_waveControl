@@ -198,3 +198,41 @@ void MainWindow::on_pushButton_7_clicked()
 {
     emit closeSoundPower();
 }
+
+
+
+void MainWindow::on_waveformCyclesN_editingFinished()
+{
+    if(ui->waveformCyclesN ->text().toInt()>15 )
+    {
+        QMessageBox msgBox;
+        msgBox.setText("数值需小于15");
+        msgBox.exec();
+        ui->waveformCyclesN->setText("15");
+    }
+}
+
+
+void MainWindow::on_emissionCount_editingFinished()
+{
+    if(ui->emissionCount->text().toInt()>15 )
+    {
+        QMessageBox msgBox;
+        msgBox.setText("数值需小于15");
+        msgBox.exec();
+        ui->emissionCount->setText("15");
+    }
+}
+
+
+void MainWindow::on_emissionInterval_editingFinished()
+{
+    if(ui->emissionInterval->text().toInt()<2 )
+    {
+        QMessageBox msgBox;
+        msgBox.setText("数值需大于2");
+        msgBox.exec();
+        ui->emissionInterval->setText("2");
+    }
+}
+

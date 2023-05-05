@@ -168,7 +168,15 @@ void socket_SYS::wave_socket_Read_Data()
         configMSG.append(QString::number( str.split(" ")[10].toInt(nullptr, 16)));
         configMSG.append(QString::number( str.split(" ")[11].toInt(nullptr, 16)));
         configMSG.append(QString::number( str.split(" ")[12].toInt(nullptr, 16)));
-        configMSG.append(QString::number( str.split(" ")[13].toInt(nullptr, 16)));
+
+        if(str.split(" ")[13].toInt(nullptr, 16)==1)
+        {
+            configMSG.append("开");
+        }
+        else
+        {
+            configMSG.append("关");          }
+
 
         emit sendConfig2M(configMSG);
         configMSG.clear();
