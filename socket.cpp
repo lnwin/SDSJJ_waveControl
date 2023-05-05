@@ -126,9 +126,9 @@ void socket_SYS::wave_socket_Read_Data()
         emit sendMSG2Log(str);
     }
 
-    myHead=str.left(8);
+    myHead=str.left(5);
 
-    if(myHead=="YES@@@@@")
+    if(myHead=="@@@@@")
     {
 
 
