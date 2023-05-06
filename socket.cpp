@@ -190,6 +190,19 @@ qDebug()<<"gf"<<str.split(" ")[13].toInt(nullptr, 16);
     {
         emit sendCallBack();
 
+        if(isSendpushed)
+        {
+
+            isSendpushed=false;
+            emit sendUIlock(true);
+        }
+
+    }
+    if(str=="FINISH")
+    {
+
+      emit sendUIlock(false);
+
     }
     if(noMode)
     {
@@ -363,6 +376,7 @@ void socket_SYS::startSample()
     MSG[0]=(C3<<8)>>8;
     MSG.append(ORG);
     waveClient->write(MSG);
+    isSendpushed=true;
 
 }
 
@@ -519,6 +533,8 @@ void socket_SYS::openSoundPower()
     MSG.append(ORG);
     waveClient->write(MSG);
 };
+
+
 
 
 

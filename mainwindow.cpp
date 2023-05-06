@@ -44,10 +44,21 @@ MainWindow::MainWindow(QWidget *parent)
 
        connect(myLocal,SIGNAL(closeWidget()),waveSocket,SLOT(shutDownFLag()));
 
+       connect(waveSocket,SIGNAL(sendUIlock(bool)),this,SLOT(receiveUIlock(bool)));
 
 
 }
-
+void MainWindow::receiveUIlock(bool lock)
+{
+    if(lock)
+    {
+         ui->tabWidget->setEnabled(false);
+    }
+    else
+    {
+         ui->tabWidget->setEnabled(true);
+    }
+};
 
 void MainWindow::openLocalLog()
 {

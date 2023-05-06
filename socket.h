@@ -37,6 +37,8 @@ signals:
   void sendConfig2M(QList<QString>);
   void sendMSG2Log(QString);
 
+  void sendUIlock(bool);
+
 public slots:
     void socket_Int();
     bool socket_Listening();
@@ -60,6 +62,8 @@ private slots:
     void on_pushButton_clicked();
 
 
+
+
 private:
 
     QString myFilePath ="D:/waveFiles";
@@ -75,6 +79,8 @@ private:
     QList<QString>configMSG;
     bool needLog();
     bool needLogFlag=false;
+    bool isSendpushed=false;
+    bool isSending=false;
 
 };
 
