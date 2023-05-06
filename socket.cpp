@@ -121,14 +121,17 @@ void socket_SYS::wave_socket_Read_Data()
     QString myHead;
 
     str = QString::fromLocal8Bit(myData);
+
+    qDebug()<<str;
+
     if(needLog())
     {
         emit sendMSG2Log(str);
     }
 
-    myHead=str.left(5);
+    myHead=str.left(8);
 
-    if(myHead=="@@@@@")
+    if(myHead=="YES@@@@@")
     {
 
 
@@ -168,16 +171,15 @@ void socket_SYS::wave_socket_Read_Data()
         configMSG.append(QString::number( str.split(" ")[10].toInt(nullptr, 16)));
         configMSG.append(QString::number( str.split(" ")[11].toInt(nullptr, 16)));
         configMSG.append(QString::number( str.split(" ")[12].toInt(nullptr, 16)));
-
+qDebug()<<"gf"<<str.split(" ")[13].toInt(nullptr, 16);
         if(str.split(" ")[13].toInt(nullptr, 16)==1)
         {
             configMSG.append("开");
         }
         else
         {
-            configMSG.append("关");          }
-
-
+            configMSG.append("关");
+        }
         emit sendConfig2M(configMSG);
         configMSG.clear();
        // qDebug()<<"str.split("")[4].toDouble()===="<<  QString::number( float(str.split(" ")[2].toInt(nullptr, 16))*0.1) ;
