@@ -482,7 +482,7 @@ void socket_SYS::receivedMutlOrder(QList<QList<int>> myList)
     MSG[0]=(C3<<8)>>8;
     MSG.append(ORG);
     waveClient->write(MSG);
-
+    isSendpushed=true;
    // qDebug()<<"2CQ==MSG.count()"<<MSG.length();
    // qDebug()<<MSG.toHex();
 
