@@ -122,7 +122,7 @@ void socket_SYS::wave_socket_Read_Data()
 
     str = QString::fromLocal8Bit(myData);
 
-    qDebug()<<str;
+   // qDebug()<<"str==========="<<str;
 
     if(needLog())
     {
@@ -171,7 +171,7 @@ void socket_SYS::wave_socket_Read_Data()
         configMSG.append(QString::number( str.split(" ")[10].toInt(nullptr, 16)));
         configMSG.append(QString::number( str.split(" ")[11].toInt(nullptr, 16)));
         configMSG.append(QString::number( str.split(" ")[12].toInt(nullptr, 16)));
-qDebug()<<"gf"<<str.split(" ")[13].toInt(nullptr, 16);
+         qDebug()<<"gf"<<str.split(" ")[13].toInt(nullptr, 16);
         if(str.split(" ")[13].toInt(nullptr, 16)==1)
         {
             configMSG.append("开");
@@ -198,11 +198,11 @@ qDebug()<<"gf"<<str.split(" ")[13].toInt(nullptr, 16);
         }
 
     }
-    if(str=="FINISH")
+    if(str=="FINISH\r\n")
     {
 
       emit sendUIlock(false);
-
+      // qDebug()<<"received FINISH";
     }
     if(noMode)
     {
