@@ -218,12 +218,12 @@ void socket_SYS::wave_socket_Read_Data()
            Range=str;
            isCurrentData=true;
            noMode=false;
-           fileKeyMSG=str.split("&")[1];
-       //    qDebug()<<"fileKeyMSG===="<<fileKeyMSG;
+           fileKeyMSG=str.split("K")[2];
+           fileKeyMSG.remove(0,4);
+//           qDebug()<<"fileKeyMSG===="<<fileKeyMSG;
 //           if(str.size()>10)
 //           {
-//              str.remove(0,11);
-//               currentdataStream+=str;
+               currentdataStream+=fileKeyMSG;
 //           }
 
 
@@ -259,7 +259,7 @@ void socket_SYS::wave_socket_Read_Data()
             if(!(strHead=="$$$$$"))
             {
                // qDebug()<<"strTips===="<<strTips;
-              //  qDebug()<<" currentdataStream+=str===="<<str;
+               // qDebug()<<" currentdataStream+=str===="<<str;
                 currentdataStream+=str;
                 if(strTips=="&&&&&\r\n")// 实际使用
                 //if(strTips=="&&&\\r\\n")//本地测试用
@@ -271,7 +271,11 @@ void socket_SYS::wave_socket_Read_Data()
                     mui->textEdit->append(mymsg);
                     mui->textEdit->moveCursor(QTextCursor::Down);
                     mui->textEdit->update();
-                    QString finalcurrentdataStream=currentdataStream.remove(currentdataStream.indexOf("&"),7);//本地测试是9，实际需要改成7
+                    QString finalcurrentdataStream=currentdataStream.remove(currentdataStream.indexOf("&")-2,9);//本地测试是9，实际需要改成7
+
+                   // currentdataStream.remove(0, currentdataStream.indexOf("K")+1);
+
+                   // QString finalcurrentdataStream=currentdataStream;//本地测试是9，实际需要改成7
                     analyzeCurrentData(finalcurrentdataStream,Range);
                     saveFileData(finalcurrentdataStream);
                     currentdataStream.clear();
@@ -391,8 +395,8 @@ void socket_SYS::analyzeCurrentData(QString cd,QString head)
     QList<double>channal_2;
     QList<QString>cdList=cd.split("\r\n");
     QList<QString>myRange=head.split("&");
-  //  qDebug()<<"cd=============="<<cd;
-   // qDebug()<<"cdList=============="<<cdList;
+    qDebug()<<"cd=============="<<cd;
+    qDebug()<<"cdList=============="<<cdList;
     bool ok;
     int countN=cdList.size();
      for(int i=0;i<countN-1;i++)
