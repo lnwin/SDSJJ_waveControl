@@ -275,7 +275,7 @@ void socket_SYS::wave_socket_Read_Data()
                     mui->textEdit->append(mymsg);
                     mui->textEdit->moveCursor(QTextCursor::Down);
                     mui->textEdit->update();
-                    QString finalcurrentdataStream=currentdataStream.remove(currentdataStream.length()-9,9);//本地测试是9，实际需要改成7
+                    QString finalcurrentdataStream=currentdataStream.remove(currentdataStream.length()-8,8);//本地测试是9，实际需要改成7
                     qDebug()<<" finalcurrentdataStream===="<<finalcurrentdataStream;
                    // currentdataStream.remove(0, currentdataStream.indexOf("K")+1);
 
@@ -400,7 +400,7 @@ void socket_SYS::analyzeCurrentData(QString cd,QString head)
 {
     QList<double>channal_1;
     QList<double>channal_2;
-    QList<QString>cdList=cd.split("\r\n");
+    QList<QString>cdList=cd.split("\n");
     QList<QString>myRange=head.split("&");
     qDebug()<<"cd=============="<<cd;
     qDebug()<<"myRange=============="<<myRange;
@@ -414,7 +414,7 @@ void socket_SYS::analyzeCurrentData(QString cd,QString head)
     //channal_1.removeFirst();
     emit sendData2Chart(channal_1,channal_2,myRange);
     //qDebug()<<"channal_1=========="<<channal_1;
-   // qDebug()<<"channal_2=========="<<channal_2;
+    //qDebug()<<"channal_2=========="<<channal_2;
 }
 
 bool socket_SYS::needLog()
