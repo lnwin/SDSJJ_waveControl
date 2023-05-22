@@ -99,7 +99,7 @@ void MainWindow::on_gainMultiplier_editingFinished()
      if(ui->gainMultiplier->text().toInt()>255 )
      {
          QMessageBox msgBox;
-         msgBox.setText("数值需小于255");
+        msgBox.setText("数值需小于255");
          msgBox.exec();
          ui->gainMultiplier->setText("");
      }
@@ -119,7 +119,7 @@ void MainWindow::on_waveGetStart_editingFinished()
     if(ui->waveGetStart->text().toInt()>128 )
     {
         QMessageBox msgBox;
-        msgBox.setText("数值需小于128");
+         msgBox.setText("数值需小于128");
         msgBox.exec();
         ui->waveGetStart->setText("");
     }
@@ -170,7 +170,7 @@ void MainWindow::on_fileSaveButton_clicked()
   void MainWindow::receiveCallBack()
   {
       QMessageBox msgBox;
-      msgBox.setWindowTitle("接收反馈");
+       msgBox.setWindowTitle("接收反馈");
       msgBox.setText("指令下发成功！");
       msgBox.exec();
   }
@@ -217,7 +217,7 @@ void MainWindow::on_waveformCyclesN_editingFinished()
     if(ui->waveformCyclesN ->text().toInt()>15 )
     {
         QMessageBox msgBox;
-        msgBox.setText("数值需小于15");
+           msgBox.setText("数值需小于15");
         msgBox.exec();
         ui->waveformCyclesN->setText("15");
     }

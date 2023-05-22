@@ -1,5 +1,7 @@
 ﻿#include "socket.h"
 #include <QMessageBox>
+#include <QTextStream>
+#include <QTextCursor>
 bool severStatus=false;
 bool ISconnected_0=false;
 bool ISconnected_1=false;
@@ -55,7 +57,7 @@ bool socket_SYS::socket_Listening()
           // qDebug()<<"TCP_Sever listen failed, Plesas change TCP_Sever IP to >>192.168.1.65<<!";
            //qDebug()<<"Socket isListening thread"<<QThread::currentThread();
            QDateTime time = QDateTime::currentDateTime();
-           QString mymsg =time.toString("yyyy-MM-dd hh:mm:ss  ")+"监听失败, 请尝试将IP改为 >>192.168.1.100<<!";
+            QString mymsg =time.toString("yyyy-MM-dd hh:mm:ss  ")+"监听失败, 请尝试将IP改为 >>192.168.1.100<<!";
             mui->textEdit->append(mymsg);
             return  false;
 
@@ -120,9 +122,9 @@ void socket_SYS::wave_socket_Read_Data()
     QString str;
     QString myHead;
 
-    str = QString::fromLocal8Bit(myData);
+    str = myData;
 
-   // qDebug()<<"str==========="<<str;
+    qDebug()<<"str==========="<<str;
 
     if(needLog())
     {
@@ -184,7 +186,6 @@ void socket_SYS::wave_socket_Read_Data()
         configMSG.clear();
        // qDebug()<<"str.split("")[4].toDouble()===="<<  QString::number( float(str.split(" ")[2].toInt(nullptr, 16))*0.1) ;
     }
-
    // qDebug()<<"origin===="<<str;
     if(str=="YES")
     {
@@ -215,15 +216,20 @@ void socket_SYS::wave_socket_Read_Data()
            mui->textEdit->append(mymsg);
            mui->textEdit->moveCursor(QTextCursor::Down);
            mui->textEdit->update();
-           Range=str;
+
+           QList<QString>cuthead =str.split("K");
+
+           Range=cuthead[0];
            isCurrentData=true;
            noMode=false;
-           fileKeyMSG=str.split("K")[2];
-           fileKeyMSG.remove(0,4);
+           fileKeyMSG+= cuthead[0]+"K"+cuthead[1]+"K";
+          // fileKeyMSG.remove(0,4);
 //           qDebug()<<"fileKeyMSG===="<<fileKeyMSG;
 //           if(str.size()>10)
 //           {
-               currentdataStream+=fileKeyMSG;
+               currentdataStream+=cuthead[2];
+
+           qDebug()<<"cuthead[2]====="<<cuthead[2];
 //           }
 
 
@@ -233,7 +239,7 @@ void socket_SYS::wave_socket_Read_Data()
         else if (strHead=="#####")
         {
             QDateTime time = QDateTime::currentDateTime();
-            QString mymsg =time.toString("yyyy-MM-dd hh:mm:ss  ")+"开始接收波形文件!";
+           QString mymsg =time.toString("yyyy-MM-dd hh:mm:ss  ")+"开始接收波形文件!";
             mui->textEdit->append(mymsg);
             mui->textEdit->moveCursor(QTextCursor::Down);
             mui->textEdit->update();
@@ -258,7 +264,7 @@ void socket_SYS::wave_socket_Read_Data()
             QString strHead=str.left(5);
             if(!(strHead=="$$$$$"))
             {
-               // qDebug()<<"strTips===="<<strTips;
+                qDebug()<<"strTips===="<<strTips;
                // qDebug()<<" currentdataStream+=str===="<<str;
                 currentdataStream+=str;
                 if(strTips=="&&&&&\r\n")// 实际使用
@@ -271,8 +277,8 @@ void socket_SYS::wave_socket_Read_Data()
                     mui->textEdit->append(mymsg);
                     mui->textEdit->moveCursor(QTextCursor::Down);
                     mui->textEdit->update();
-                    QString finalcurrentdataStream=currentdataStream.remove(currentdataStream.indexOf("&")-2,9);//本地测试是9，实际需要改成7
-
+                    QString finalcurrentdataStream=currentdataStream.remove(currentdataStream.length()-9,9);//本地测试是9，实际需要改成7
+                    qDebug()<<" finalcurrentdataStream===="<<finalcurrentdataStream;
                    // currentdataStream.remove(0, currentdataStream.indexOf("K")+1);
 
                    // QString finalcurrentdataStream=currentdataStream;//本地测试是9，实际需要改成7
@@ -286,9 +292,11 @@ void socket_SYS::wave_socket_Read_Data()
         else if (isFileData)
         {
             filsedataStream+=str;
+            qDebug()<<"ENDstrTips===="<<strTips;
              if(strTips=="&&&&&\r\n") //实际使用
             // if(strTips=="&&&&&\r\n")//本地测试用
             {
+
                 isCurrentData=false;
                 noMode=true;
                 QDateTime time = QDateTime::currentDateTime();
@@ -298,6 +306,7 @@ void socket_SYS::wave_socket_Read_Data()
                 mui->textEdit->update();
                 QString finalfilsedataStream=filsedataStream.remove(filsedataStream.indexOf("&"),7);
                 filsedataStream.clear();
+               // emit sendUIlock(false);
             }
 
         }
@@ -396,7 +405,7 @@ void socket_SYS::analyzeCurrentData(QString cd,QString head)
     QList<QString>cdList=cd.split("\r\n");
     QList<QString>myRange=head.split("&");
     qDebug()<<"cd=============="<<cd;
-    qDebug()<<"cdList=============="<<cdList;
+    qDebug()<<"myRange=============="<<myRange;
     bool ok;
     int countN=cdList.size();
      for(int i=0;i<countN-1;i++)
@@ -438,6 +447,8 @@ void socket_SYS::saveFileData(QString fd)
         {
             qDebug()<<"save ok";
             QTextStream stream(&file);
+
+
             stream<<fileKeyMSG;
             file.close();
         }

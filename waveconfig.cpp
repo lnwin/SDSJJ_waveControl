@@ -16,7 +16,7 @@ void waveConfig::modelinit()
 {
     // set columns
         QStringList columnTitles;
-        columnTitles  << "发射波形" << "发射频率(KHz)" << "发射电压"<< "波形周期数"<< "发射换能器通道"<< "发射间隔(s)"<< "发射次数"<<"采样频率(MSPS)"<<"固定增益倍数"<<"采样长度(K)"<<"上传波形起点(k)"<<"上传波形终点(k)"<<"功放功率(k)";
+    columnTitles  << "发射波形" << "发射频率(KHz)" <<"发射电压"<<"波形周期数"<< "发射换能器通道"<<"发射间隔(s)"<<"发射次数"<<"采样频率(MSPS)"<<"固定增益倍数"<<"采样长度(K)"<<"上传波形起点(k)"<<"上传波形终点(k)"<<"功放功率(k)";
         TVmodel->setHorizontalHeaderLabels(columnTitles);
         this->ui->tableView->setColumnWidth(0, 70);
 

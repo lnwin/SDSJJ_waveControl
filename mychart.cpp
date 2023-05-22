@@ -16,7 +16,7 @@ void myChart::chart_Init(Ui::MainWindow *ui)
        mcui->channel1->axisRect()->setupFullAxesBox();
        mcui->channel1->plotLayout()->insertRow(0);
 
-        QCPTextElement *title = new QCPTextElement(mcui->channel1, "输出波形", QFont("sans", 10, QFont::Bold));
+       QCPTextElement *title = new QCPTextElement(mcui->channel1, "输出波形", QFont("sans", 10, QFont::Bold));
         mcui->channel1->plotLayout()->addElement(0, 0, title);
         mcui->channel1->xAxis->setLabel("频率范围");
         mcui->channel1->yAxis->setLabel("电压");
@@ -44,9 +44,9 @@ void myChart::chart_Init(Ui::MainWindow *ui)
          mcui->channel2->axisRect()->setupFullAxesBox();
          mcui->channel2->plotLayout()->insertRow(0);
 
-          QCPTextElement *title1 = new QCPTextElement(mcui->channel2, "参考波形", QFont("sans", 10, QFont::Bold));
+         QCPTextElement *title1 = new QCPTextElement(mcui->channel2, "参考波形", QFont("sans", 10, QFont::Bold));
           mcui->channel2->plotLayout()->addElement(0, 0, title1);
-          mcui->channel2->xAxis->setLabel("频率范围");
+         mcui->channel2->xAxis->setLabel("频率范围");
           mcui->channel2->yAxis->setLabel("电压");
           mcui->channel2->legend->setVisible(true);
 
@@ -104,7 +104,7 @@ if((!C1.empty())&&(!C2.empty()))
    qDebug()<<"D0==="<< myC1Y[0];
    qDebug()<<"D1==="<< myC2Y[0];
 
-   mcui->channel1->graph()->setData(myX,myC1Y);   
+   mcui->channel1->graph()->setData(myX,myC1Y);
    mcui->channel1->graph()->setName( QString::number(xStart,10)+"k--"+QString::number(xEnd,10)+ "k波形图");
    mcui->channel1->replot();
    mcui->channel2->graph()->setData(myX,myC2Y);
