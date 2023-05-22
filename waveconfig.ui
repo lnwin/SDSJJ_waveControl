@@ -61,7 +61,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>指令下发</string>
+    <string>开始发射</string>
    </property>
   </widget>
   <widget class="QPushButton" name="deleteOrder">

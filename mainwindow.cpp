@@ -92,6 +92,7 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
+
     emit readConfig();
 }
 void MainWindow::on_gainMultiplier_editingFinished()

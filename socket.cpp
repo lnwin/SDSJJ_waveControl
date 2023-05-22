@@ -1,4 +1,5 @@
-﻿#include "socket.h"
+﻿
+#include "socket.h"
 #include <QMessageBox>
 #include <QTextStream>
 #include <QTextCursor>
@@ -122,7 +123,7 @@ void socket_SYS::wave_socket_Read_Data()
     QString str;
     QString myHead;
 
-    str = myData;
+    str = QString::fromLocal8Bit(myData);
 
     qDebug()<<"str==========="<<str;
 
@@ -203,7 +204,7 @@ void socket_SYS::wave_socket_Read_Data()
     {
 
       emit sendUIlock(false);
-      // qDebug()<<"received FINISH";
+      //qDebug()<<"received FINISH";
     }
     if(noMode)
     {
@@ -222,15 +223,12 @@ void socket_SYS::wave_socket_Read_Data()
            Range=cuthead[0];
            isCurrentData=true;
            noMode=false;
-           fileKeyMSG+= cuthead[0]+"K"+cuthead[1]+"K";
-          // fileKeyMSG.remove(0,4);
-//           qDebug()<<"fileKeyMSG===="<<fileKeyMSG;
-//           if(str.size()>10)
-//           {
-               currentdataStream+=cuthead[2];
+           currentdataStream+=cuthead[2];
+           // str.remove(str.indexOf("/r/n"),str.length()-1);
+           fileKeyMSG=cuthead[0]+"K"+cuthead[1]+"K";
+           fileKeyMSG.remove(0,10);
+           qDebug()<<"str5555====="<<str;
 
-           qDebug()<<"cuthead[2]====="<<cuthead[2];
-//           }
 
 
 
@@ -239,7 +237,7 @@ void socket_SYS::wave_socket_Read_Data()
         else if (strHead=="#####")
         {
             QDateTime time = QDateTime::currentDateTime();
-           QString mymsg =time.toString("yyyy-MM-dd hh:mm:ss  ")+"开始接收波形文件!";
+            QString mymsg =time.toString("yyyy-MM-dd hh:mm:ss  ")+"开始接收波形文件!";
             mui->textEdit->append(mymsg);
             mui->textEdit->moveCursor(QTextCursor::Down);
             mui->textEdit->update();
@@ -447,8 +445,7 @@ void socket_SYS::saveFileData(QString fd)
         {
             qDebug()<<"save ok";
             QTextStream stream(&file);
-
-
+          //  stream.setEncoding (QStringConverter::System);   //输出编码设为System
             stream<<fileKeyMSG;
             file.close();
         }
