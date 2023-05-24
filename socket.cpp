@@ -322,7 +322,7 @@ void socket_SYS::wave_socket_Disconnected()
 QByteArray socket_SYS::readUIParameter(int type)
 {
     QByteArray UIParameter;
-    UIParameter.resize(14);
+    UIParameter.resize(15);
 
      UIParameter[0]=mui->emissionN->currentIndex()+1;
      UIParameter[1]=int(mui->emissionVoltage->text().toFloat()*10);
@@ -337,7 +337,8 @@ QByteArray socket_SYS::readUIParameter(int type)
      UIParameter[10]=mui->waveGetStart->text().toInt();
      UIParameter[11]=mui->waveGetEnd->text().toInt();
      UIParameter[12]=mui->powercomboBox->currentIndex()+1;
-     UIParameter[13]=type;
+     UIParameter[13]=1;
+     UIParameter[14]=type;
     // UIParameter.resize(sizeof(UIParameterF));
     // memcpy(UIParameter.data(), &UIParameterF, sizeof(UIParameter));
      return UIParameter;
@@ -363,15 +364,20 @@ void socket_SYS::readMyConfig()
 void socket_SYS::wave_socket_SendMSG()
 {
 
-    uint16_t C3=CRC->ModbusCRC16(readUIParameter(1));
+    uint16_t C3=CRC->ModbusCRC16(readUIParameter(4));
     QByteArray MSG;
     MSG.resize(2);
     MSG[1]=C3>>8;//高位在后
     MSG[0]=(C3<<8)>>8;
-    MSG.append(readUIParameter(1));
+    MSG.append(readUIParameter(4));
     qDebug()<<"MSG.toHex()"<<MSG.toHex();
     waveClient->write(MSG);
 
+};
+
+void socket_SYS::receiveUIlock()
+{
+    //isSendpushed=true;
 };
 
 void socket_SYS::startSample()
@@ -387,7 +393,12 @@ void socket_SYS::startSample()
     MSG[0]=(C3<<8)>>8;
     MSG.append(ORG);
     waveClient->write(MSG);
-    isSendpushed=true;
+    if(isXLcode)
+    {
+        isXLcode=false;
+        isSendpushed=true;
+    }
+
 
 }
 
@@ -494,23 +505,8 @@ void socket_SYS::receivedMutlOrder(QList<QList<int>> myList)
     MSG[0]=(C3<<8)>>8;
     MSG.append(ORG);
     waveClient->write(MSG);
-    isSendpushed=true;
-   // qDebug()<<"2CQ==MSG.count()"<<MSG.length();
-   // qDebug()<<MSG.toHex();
+    isXLcode=true;
 
-    //       UIParameter[0]=mui->emissionN->currentIndex()+1;
-    //       UIParameter[1]=int(mui->emissionVoltage->text().toFloat()*10);
-    //       UIParameter[2]=mui->waveformCyclesN->text().toInt();
-    //       UIParameter[3]=int(mui->emissionFrequency->text().toFloat()*10);
-    //       UIParameter[4]=mui->emissionWavePool->currentIndex()+1;
-    //       UIParameter[5]=mui->emissionInterval->text().toInt();
-    //       UIParameter[6]=mui->emissionCount->text().toInt();
-    //       UIParameter[7]=mui->amplingLength->text().toInt();
-    //       UIParameter[8]=mui->amplingFrequency->currentIndex()+1;
-    //       UIParameter[9]=mui->gainMultiplier->text().toInt();
-    //       UIParameter[10]=mui->waveGetStart->text().toInt();
-    //       UIParameter[11]=mui->waveGetEnd->text().toInt();
-    //       UIParameter[12]=type;
 };
 
 void socket_SYS::on_pushButton_clicked()

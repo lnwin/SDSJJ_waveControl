@@ -17,6 +17,9 @@ public slots:
     void chartUpdate(QList<double>C1,QList<double>C2,QList<QString>range);
 
 
+private slots:
+
+
 };
 
 #endif // MYCHART_H

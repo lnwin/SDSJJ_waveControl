@@ -44,7 +44,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>320</y>
+        <y>250</y>
         <width>211</width>
         <height>71</height>
        </rect>
@@ -57,7 +57,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>400</y>
+        <y>70</y>
         <width>211</width>
         <height>71</height>
        </rect>
@@ -70,13 +70,39 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>480</y>
+        <y>150</y>
         <width>211</width>
         <height>71</height>
        </rect>
       </property>
       <property name="text">
        <string>功放关</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_8">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>330</y>
+        <width>211</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>参数读取</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_9">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>400</y>
+        <width>211</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>开始发射</string>
       </property>
      </widget>
     </widget>
@@ -88,7 +114,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>380</y>
+        <y>370</y>
         <width>211</width>
         <height>171</height>
        </rect>
@@ -480,9 +506,9 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>620</y>
-        <width>101</width>
-        <height>71</height>
+        <y>550</y>
+        <width>211</width>
+        <height>41</height>
        </rect>
       </property>
       <property name="text">
@@ -493,9 +519,9 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>560</y>
+        <y>600</y>
         <width>211</width>
-        <height>51</height>
+        <height>41</height>
        </rect>
       </property>
       <property name="text">
@@ -505,10 +531,10 @@
      <widget class="QPushButton" name="startSample">
       <property name="geometry">
        <rect>
-        <x>120</x>
-        <y>620</y>
-        <width>101</width>
-        <height>71</height>
+        <x>10</x>
+        <y>650</y>
+        <width>211</width>
+        <height>41</height>
        </rect>
       </property>
       <property name="text">

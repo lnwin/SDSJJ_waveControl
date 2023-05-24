@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
        waveChart->chart_Init(ui);
        connect(this,SIGNAL(socketInit()),waveSocket,SLOT (socket_Int()));
        connect(this,SIGNAL(sendMSG()),waveSocket,SLOT (wave_socket_SendMSG()));
+       connect(this,SIGNAL(sendUIlock()),waveSocket,SLOT (receiveUIlock()));
        connect(this,SIGNAL(startSample()),waveSocket,SLOT (startSample()));
        connect(this,SIGNAL(sendDestroy()),waveSocket,SLOT (closeMySocket()));
        connect(this,SIGNAL(readConfig()),waveSocket,SLOT (readMyConfig()));
@@ -177,7 +178,7 @@ void MainWindow::on_fileSaveButton_clicked()
   }
   void MainWindow::on_pushButton_4_clicked()
   {
-    WC->show();
+      WC->show();
   }
 void MainWindow::receiveConfigMSG(QList<QString> mylist)
 {
@@ -248,3 +249,13 @@ void MainWindow::on_emissionInterval_editingFinished()
     }
 }
 
+void MainWindow::on_pushButton_8_clicked()
+{
+      emit readConfig();
+}
+
+void MainWindow::on_pushButton_9_clicked()
+{
+     emit startSample();
+     emit sendUIlock();
+}

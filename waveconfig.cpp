@@ -73,10 +73,10 @@ void waveConfig::on_deleteOrder_clicked()
 
 void waveConfig::on_finishWrite_clicked()
 {
-   // QWidget *widgetQWidget =ui->tableView->indexWidget(TVmodel->index(0, 4));
-   // QComboBox *combox=(QComboBox*)widgetQWidget;
-   // qDebug()<<combox->currentIndex() ;
+
+     this->hide();
      checkAllTable();
+
 }
 
 void waveConfig::checkAllTable()

@@ -31,6 +31,7 @@ public:
     void socketInit();
     void chartInit();
     void sendMSG();
+    void sendMSGXL();
     void startSample();
     void sendFilePath(QString);
     void sendDestroy();
@@ -38,7 +39,7 @@ public:
     void closeSoundPower();
     void openSoundPower();
     void sendNeedLogFlag(bool);
-
+    void sendUIlock();
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
@@ -56,11 +57,12 @@ private slots:
     void on_pushButton_5_clicked();
     void on_pushButton_6_clicked();
     void on_pushButton_7_clicked();
+    void on_pushButton_9_clicked();
     void openLocalLog();
 public slots:
     void receiveUIlock(bool);
 
-
+    void on_pushButton_8_clicked();
     void on_waveformCyclesN_editingFinished();
 
     void on_emissionCount_editingFinished();

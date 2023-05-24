@@ -46,6 +46,7 @@ public slots:
     void wave_socket_Read_Data();
     void wave_socket_Disconnected();
     void wave_socket_SendMSG();
+    void receiveUIlock();
     void startSample();
     void receiveFilePath(QString);
     void closeMySocket();
@@ -81,6 +82,7 @@ private:
     bool needLogFlag=false;
     bool isSendpushed=false;
     bool isSending=false;
+    bool isXLcode=false;
 
 };
 
