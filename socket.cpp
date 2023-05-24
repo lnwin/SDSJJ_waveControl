@@ -277,11 +277,10 @@ void socket_SYS::wave_socket_Read_Data()
                     mui->textEdit->update();
                     QString finalcurrentdataStream=currentdataStream.remove(currentdataStream.length()-8,8);//本地测试是9，实际需要改成7
                     qDebug()<<" finalcurrentdataStream===="<<finalcurrentdataStream;
-                   // currentdataStream.remove(0, currentdataStream.indexOf("K")+1);
-
-                   // QString finalcurrentdataStream=currentdataStream;//本地测试是9，实际需要改成7
+                  //currentdataStream.remove(0, currentdataStream.indexOf("K")+1);
+                  //QString finalcurrentdataStream=currentdataStream;//本地测试是9，实际需要改成7;
                     analyzeCurrentData(finalcurrentdataStream,Range);
-                    saveFileData(finalcurrentdataStream);
+                    //saveFileData(finalcurrentdataStream);
                     currentdataStream.clear();
                 }
             }
@@ -393,11 +392,11 @@ void socket_SYS::startSample()
     MSG[0]=(C3<<8)>>8;
     MSG.append(ORG);
     waveClient->write(MSG);
-    if(isXLcode)
-    {
-        isXLcode=false;
+   // if(isXLcode)
+   // {
+       // isXLcode=false;
         isSendpushed=true;
-    }
+   // }
 
 
 }
@@ -411,6 +410,8 @@ void socket_SYS::analyzeCurrentData(QString cd,QString head)
 {
     QList<double>channal_1;
     QList<double>channal_2;
+    QString myData;
+
     QList<QString>cdList=cd.split("\n");
     QList<QString>myRange=head.split("&");
     qDebug()<<"cd=============="<<cd;
@@ -419,11 +420,23 @@ void socket_SYS::analyzeCurrentData(QString cd,QString head)
     int countN=cdList.size();
      for(int i=0;i<countN-1;i++)
      {
-        channal_1.append(cdList[i].split(" ")[0].toDouble(&ok));
-        channal_2.append(cdList[i].split(" ")[1].toDouble(&ok));
+        channal_1.append((cdList[i].split(" ")[0].toDouble(&ok)*1.65)/8192  );
+        channal_2.append((cdList[i].split(" ")[1].toDouble(&ok)*1.65)/8192  );
+
      }
-    //channal_1.removeFirst();
     emit sendData2Chart(channal_1,channal_2,myRange);
+
+     myData.append( fileKeyMSG+="\r\n");
+
+     for(int i=0;i<countN-1;i++)
+     {
+        myData.append(QString::number((cdList[i].split(" ")[0].toDouble(&ok)*1.65)/8192) );
+        myData.append("/n");
+        myData.append(QString::number((cdList[i].split(" ")[1].toDouble(&ok)*1.65)/8192) );
+        myData.append("/r");
+
+     }
+     saveFileData(myData);
     //qDebug()<<"channal_1=========="<<channal_1;
     //qDebug()<<"channal_2=========="<<channal_2;
 }
@@ -443,8 +456,7 @@ void socket_SYS::receivedNeedLogFlag(bool TOF)
  };
 void socket_SYS::saveFileData(QString fd)
 {
-        fileKeyMSG+="\r\n";
-        fileKeyMSG+=fd;
+
         QDateTime time = QDateTime::currentDateTime();
         QString myTime =time.toString("yyyy-MM-dd_hh_mm_ss");
         QFile file(myFilePath+"/"+myTime+".txt");
@@ -457,7 +469,7 @@ void socket_SYS::saveFileData(QString fd)
             qDebug()<<"save ok";
             QTextStream stream(&file);
           //  stream.setEncoding (QStringConverter::System);   //输出编码设为System
-            stream<<fileKeyMSG;
+            stream<<fd;
             file.close();
         }
         fileKeyMSG.clear();
@@ -505,7 +517,7 @@ void socket_SYS::receivedMutlOrder(QList<QList<int>> myList)
     MSG[0]=(C3<<8)>>8;
     MSG.append(ORG);
     waveClient->write(MSG);
-    isXLcode=true;
+  //  isXLcode=true;
 
 };
 
