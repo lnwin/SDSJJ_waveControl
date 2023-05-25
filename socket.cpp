@@ -420,10 +420,10 @@ void socket_SYS::analyzeCurrentData(QString cd,QString head)
     int countN=cdList.size();
      for(int i=0;i<countN-1;i++)
      {
-        channal_1.append((cdList[i].split(" ")[0].toDouble(&ok)*1.65)/8192  );
-        channal_2.append((cdList[i].split(" ")[1].toDouble(&ok)*1.65)/8192  );
-
+        channal_1.append((cdList[i].split(" ")[0].toDouble(&ok)*1.65)/8192);
+        channal_2.append((cdList[i].split(" ")[1].toDouble(&ok)*1.65)/8192);
      }
+
      emit sendData2Chart(channal_1,channal_2,myRange);
 
      myData.append( fileKeyMSG+="\r\n");
@@ -431,9 +431,9 @@ void socket_SYS::analyzeCurrentData(QString cd,QString head)
      for(int i=0;i<countN-1;i++)
      {
         myData.append(QString::number((cdList[i].split(" ")[0].toDouble(&ok)*1.65)/8192,'f', 3) );
-        myData.append("/n");
+        myData.append(" ");
         myData.append(QString::number((cdList[i].split(" ")[1].toDouble(&ok)*1.65)/8192,'f', 3) );
-        myData.append("/r");
+        myData.append("\r");
      }
      saveFileData(myData);
     //qDebug()<<"channal_1=========="<<channal_1;

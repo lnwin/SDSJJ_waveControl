@@ -240,7 +240,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>2</string>
+        <string>0</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="waveGetEnd">
@@ -253,7 +253,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>3</string>
+        <string>10</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="amplingLength">
@@ -266,7 +266,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>5</string>
+        <string>10</string>
        </property>
        <property name="maxLength">
         <number>255</number>
@@ -472,7 +472,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>1.9</string>
+        <string>10</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_6">
@@ -689,7 +689,7 @@
      <x>0</x>
      <y>0</y>
      <width>1235</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSYS">

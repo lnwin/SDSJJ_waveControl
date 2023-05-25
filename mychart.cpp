@@ -16,7 +16,7 @@ void myChart::chart_Init(Ui::MainWindow *ui)
        mcui->channel1->axisRect()->setupFullAxesBox();
        mcui->channel1->plotLayout()->insertRow(0);
 
-       QCPTextElement *title = new QCPTextElement(mcui->channel1, "输出波形", QFont("sans", 10, QFont::Bold));
+       QCPTextElement *title = new QCPTextElement(mcui->channel1, "参考波形", QFont("sans", 10, QFont::Bold));
         mcui->channel1->plotLayout()->addElement(0, 0, title);
         mcui->channel1->xAxis->setLabel("频率范围");
         mcui->channel1->yAxis->setLabel("电压");
@@ -44,7 +44,7 @@ void myChart::chart_Init(Ui::MainWindow *ui)
          mcui->channel2->axisRect()->setupFullAxesBox();
          mcui->channel2->plotLayout()->insertRow(0);
 
-         QCPTextElement *title1 = new QCPTextElement(mcui->channel2, "参考波形", QFont("sans", 10, QFont::Bold));
+         QCPTextElement *title1 = new QCPTextElement(mcui->channel2, "输出波形", QFont("sans", 10, QFont::Bold));
           mcui->channel2->plotLayout()->addElement(0, 0, title1);
          mcui->channel2->xAxis->setLabel("频率范围");
           mcui->channel2->yAxis->setLabel("电压");
@@ -87,9 +87,9 @@ if((!C1.empty())&&(!C2.empty()))
     qDebug()<<"C2max"<<C2max;
     qDebug()<<"C2min"<<C2min;
 
-    mcui->channel1->yAxis->setRange(C1min-10, C1max+10);
+    mcui->channel1->yAxis->setRange(C1min*1.1, C1max*1.1);
     mcui->channel1->xAxis->setRange(0, dataLength);
-    mcui->channel2->yAxis->setRange(C2min-10, C2max+10);
+    mcui->channel2->yAxis->setRange(C2min*1.1, C2max*1.1);
     mcui->channel2->xAxis->setRange(0, dataLength);
     QVector<double> myX(dataLength);
     QVector<double> myC1Y(dataLength);

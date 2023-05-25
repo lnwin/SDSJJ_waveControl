@@ -37,25 +37,25 @@ void waveConfig::on_addOrder_clicked()
 
     TVmodel->setItem(OrderIndex, 0, new QStandardItem(""));
 
-    waveType->addItems({"高斯波", "正弦波"});
+    waveType->addItems({ "正弦波","高斯波" });
     ui->tableView->setIndexWidget(TVmodel->index(OrderIndex, 0), waveType);
-    TVmodel->setItem(OrderIndex, 1, new QStandardItem("1"));
-    TVmodel->setItem(OrderIndex, 2, new QStandardItem("1.0"));
-    TVmodel->setItem(OrderIndex, 3, new QStandardItem("3"));
+    TVmodel->setItem(OrderIndex, 1, new QStandardItem("10"));
+    TVmodel->setItem(OrderIndex, 2, new QStandardItem("0.5"));
+    TVmodel->setItem(OrderIndex, 3, new QStandardItem("5"));
 
 
     channel->addItems({"1", "2", "3", "4", "5"});
     ui->tableView->setIndexWidget(TVmodel->index(OrderIndex, 4), channel);
-    TVmodel->setItem(OrderIndex, 5, new QStandardItem("4"));
-    TVmodel->setItem(OrderIndex, 6, new QStandardItem("5"));
+    TVmodel->setItem(OrderIndex, 5, new QStandardItem("5"));
+    TVmodel->setItem(OrderIndex, 6, new QStandardItem("1"));
 
 
     channel2->addItems({"5MHz", "10MHz", "15MHz", "20MHz"});
     ui->tableView->setIndexWidget(TVmodel->index(OrderIndex, 7), channel2);
-    TVmodel->setItem(OrderIndex, 8, new QStandardItem("6"));
-    TVmodel->setItem(OrderIndex, 9, new QStandardItem("7"));
-    TVmodel->setItem(OrderIndex, 10, new QStandardItem("8"));
-    TVmodel->setItem(OrderIndex, 11, new QStandardItem("9"));
+    TVmodel->setItem(OrderIndex, 8, new QStandardItem("128"));
+    TVmodel->setItem(OrderIndex, 9, new QStandardItem("10"));
+    TVmodel->setItem(OrderIndex, 10, new QStandardItem("0"));
+    TVmodel->setItem(OrderIndex, 11, new QStandardItem("10"));
     channel3->addItems({"低档", "中档", "高档"});
     ui->tableView->setIndexWidget(TVmodel->index(OrderIndex, 12), channel3);
 
