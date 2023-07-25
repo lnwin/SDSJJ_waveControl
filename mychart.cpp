@@ -18,7 +18,7 @@ void myChart::chart_Init(Ui::MainWindow *ui)
 
        QCPTextElement *title = new QCPTextElement(mcui->channel1, "参考波形", QFont("sans", 10, QFont::Bold));
         mcui->channel1->plotLayout()->addElement(0, 0, title);
-        mcui->channel1->xAxis->setLabel("频率范围");
+        mcui->channel1->xAxis->setLabel("数据个数");
         mcui->channel1->yAxis->setLabel("电压");
         mcui->channel1->legend->setVisible(true);
 
@@ -46,7 +46,7 @@ void myChart::chart_Init(Ui::MainWindow *ui)
 
          QCPTextElement *title1 = new QCPTextElement(mcui->channel2, "输出波形", QFont("sans", 10, QFont::Bold));
           mcui->channel2->plotLayout()->addElement(0, 0, title1);
-         mcui->channel2->xAxis->setLabel("频率范围");
+         mcui->channel2->xAxis->setLabel("数据个数");
           mcui->channel2->yAxis->setLabel("电压");
           mcui->channel2->legend->setVisible(true);
 

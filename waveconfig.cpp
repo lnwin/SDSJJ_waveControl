@@ -15,10 +15,10 @@ waveConfig::waveConfig(QWidget *parent) :
 void waveConfig::modelinit()
 {
     // set columns
-        QStringList columnTitles;
-    columnTitles  << "发射波形" << "发射频率(KHz)" <<"发射电压"<<"波形周期数"<< "发射换能器通道"<<"发射间隔(s)"<<"发射次数"<<"采样频率(MSPS)"<<"固定增益倍数"<<"采样长度(K)"<<"上传波形起点(k)"<<"上传波形终点(k)"<<"功放功率(k)";
-        TVmodel->setHorizontalHeaderLabels(columnTitles);
-        this->ui->tableView->setColumnWidth(0, 70);
+    QStringList columnTitles;
+ columnTitles  << "发射波形" << "发射频率(KHz)" <<"发射电压"<<"波形周期数"<< "发射换能器通道"<<"发射间隔(s)"<<"发射次数"<<"采样频率(MSPS)"<<"接收增益"<<"参考增益"<<"采样长度(K)"<<"上传波形起点(k)"<<"上传波形终点(k)"<<"功放功率(k)";
+     TVmodel->setHorizontalHeaderLabels(columnTitles);
+     this->ui->tableView->setColumnWidth(0, 70);
 
 };
 waveConfig::~waveConfig()
@@ -33,7 +33,7 @@ void waveConfig::on_addOrder_clicked()
     QComboBox* channel = new QComboBox();
     QComboBox* channel2 = new QComboBox();
     QComboBox* channel3 = new QComboBox();
-
+    QComboBox* channel4 = new QComboBox();
 
     TVmodel->setItem(OrderIndex, 0, new QStandardItem(""));
 
@@ -59,6 +59,8 @@ void waveConfig::on_addOrder_clicked()
     channel3->addItems({"低档", "中档", "高档"});
     ui->tableView->setIndexWidget(TVmodel->index(OrderIndex, 12), channel3);
 
+    channel4->addItems({"1/8", "1/4", "3/8", "1/2", "5/8", "3/4", "7/8", "1"});
+    ui->tableView->setIndexWidget(TVmodel->index(OrderIndex, 9), channel4);
      OrderIndex+=1;
 
 }
@@ -109,7 +111,8 @@ void waveConfig::checkAllTable()
        QComboBox *combox3=(QComboBox*)widgetQWidget3;
        QWidget *widgetQWidget4 =ui->tableView->indexWidget(TVmodel->index(i, 12));
        QComboBox *combox4=(QComboBox*)widgetQWidget4;
-
+       QWidget *widgetQWidget5 =ui->tableView->indexWidget(TVmodel->index(i, 9));
+            QComboBox *combox5=(QComboBox*)widgetQWidget5;
 
        linshiList.append(combox2->currentIndex()+1);//发射换能器通道
        linshiList.append(TVmodel->data(TVmodel->index(i,2)).toFloat()*10);//发射电压
@@ -120,10 +123,13 @@ void waveConfig::checkAllTable()
        linshiList.append(TVmodel->data(TVmodel->index(i,6)).toInt());//发射次数
        linshiList.append(TVmodel->data(TVmodel->index(i,9)).toInt());//采样长度
        linshiList.append(combox3->currentIndex()+1);//采样频率
+
        linshiList.append(TVmodel->data(TVmodel->index(i,8)).toInt());//固定增益倍数
        linshiList.append(TVmodel->data(TVmodel->index(i,10)).toInt());//上传波形起点
        linshiList.append(TVmodel->data(TVmodel->index(i,11)).toInt());//上传波形终点
        linshiList.append(combox4->currentIndex()+1);//功放功率
+
+       linshiList.append(combox5->currentIndex());//参考增益倍数
 
 
 //       UIParameter[0]=mui->emissionN->currentIndex()+1;

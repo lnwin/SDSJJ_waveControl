@@ -186,8 +186,8 @@ void MainWindow::receiveConfigMSG(QList<QString> mylist)
     QString myTime =time.toString("yyyy-MM-dd hh:mm:ss")+"\r";
     QString myMsG;
     myMsG="当前配置---发射通道："+mylist[0]+"  发射电压："+mylist[1]+"v  循环周期："+mylist[2]+"次  发射频率："+mylist[3]+"kHZ  发射波形："+mylist[4]
-            +"  发射间隔："+mylist[5]+"秒  发射次数："+mylist[6]+"  采样长度："+mylist[7]+"K  采样频率："+mylist[8]+"  增益系数："+mylist[9]+"  采样起点："+mylist[10]+"K  采样终点："+mylist[11]+"K "
-            +"功放状态："+mylist[12];
+            +"  发射间隔："+mylist[5]+"秒  发射次数："+mylist[6]+"  采样长度："+mylist[7]+"K  采样频率："+mylist[8]+"  接收增益："+mylist[9]+" 参考增益："+mylist[13]+"  采样起点："+mylist[10]+"K  采样终点："+mylist[11]+"K "
+            +" 功放状态："+mylist[12];
     myTime+=myMsG;
     ui->readParameter->setText(myTime);
 };

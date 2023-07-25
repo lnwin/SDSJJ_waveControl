@@ -183,6 +183,36 @@ void socket_SYS::wave_socket_Read_Data()
         {
             configMSG.append("关");
         }
+        int receiveType=str.split(" ")[14].toInt(nullptr, 16);
+
+           switch (receiveType) {
+           case 0:
+                configMSG.append("1/8");
+               break;
+           case 1:
+                configMSG.append("1/4");
+               break;
+           case 2:
+                configMSG.append("3/8");
+               break;
+           case 3:
+                configMSG.append("1/2");
+               break;
+           case 4:
+                configMSG.append("5/8");
+               break;
+           case 5:
+                configMSG.append("3/4");
+               break;
+           case 6:
+                configMSG.append("7/8");
+               break;
+           case 7:
+                configMSG.append("1");
+               break;
+           default:
+               break;
+           }
         emit sendConfig2M(configMSG);
         configMSG.clear();
        // qDebug()<<"str.split("")[4].toDouble()===="<<  QString::number( float(str.split(" ")[2].toInt(nullptr, 16))*0.1) ;
@@ -321,7 +351,7 @@ void socket_SYS::wave_socket_Disconnected()
 QByteArray socket_SYS::readUIParameter(int type)
 {
     QByteArray UIParameter;
-    UIParameter.resize(15);
+    UIParameter.resize(16);
 
      UIParameter[0]=mui->emissionN->currentIndex()+1;
      UIParameter[1]=int(mui->emissionVoltage->text().toFloat()*10);
@@ -336,8 +366,9 @@ QByteArray socket_SYS::readUIParameter(int type)
      UIParameter[10]=mui->waveGetStart->text().toInt();
      UIParameter[11]=mui->waveGetEnd->text().toInt();
      UIParameter[12]=mui->powercomboBox->currentIndex()+1;
-     UIParameter[13]=1;
-     UIParameter[14]=type;
+     UIParameter[13]=mui->comboBox->currentIndex();
+       UIParameter[14]=1;
+       UIParameter[15]=type;
     // UIParameter.resize(sizeof(UIParameterF));
     // memcpy(UIParameter.data(), &UIParameterF, sizeof(UIParameter));
      return UIParameter;
@@ -489,18 +520,19 @@ void socket_SYS::receivedMutlOrder(QList<QList<int>> myList)
 
 
 
+
     int orderCount=myList.count();
 
     QByteArray ORG;
 
-    ORG.resize((orderCount*13));
+    ORG.resize((orderCount*14));
   //  qDebug()<<"ORG.count()"<<ORG.length();
     for(int i=0;i<orderCount;i++)
     {
-        for(int j=0;j<13;j++)
+        for(int j=0;j<14;j++)
         {
 
-          ORG[i*13+j]=myList.at(i).at(j);
+          ORG[i*14+j]=myList.at(i).at(j);
          // qDebug()<<"ORG==N"<<i*12+j;
          // qDebug()<<"current==N"<<myList.at(i).at(j);
         }
@@ -516,7 +548,7 @@ void socket_SYS::receivedMutlOrder(QList<QList<int>> myList)
     MSG[0]=(C3<<8)>>8;
     MSG.append(ORG);
     waveClient->write(MSG);
-  //  isXLcode=true;
+    isXLcode=true;
 
 };
 

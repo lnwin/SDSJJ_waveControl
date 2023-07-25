@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1235</width>
-    <height>764</height>
+    <height>809</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>760</x>
-      <y>610</y>
+      <y>660</y>
       <width>441</width>
       <height>81</height>
      </rect>
@@ -30,7 +30,7 @@
       <x>20</x>
       <y>10</y>
       <width>241</width>
-      <height>721</height>
+      <height>771</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -116,7 +116,7 @@
         <x>10</x>
         <y>370</y>
         <width>211</width>
-        <height>171</height>
+        <height>211</height>
        </rect>
       </property>
       <property name="title">
@@ -175,7 +175,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>固定增益倍数</string>
+        <string>接收增益</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="gainMultiplier">
@@ -195,7 +195,7 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>80</y>
+         <y>110</y>
          <width>91</width>
          <height>21</height>
         </rect>
@@ -208,7 +208,7 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>110</y>
+         <y>140</y>
          <width>91</width>
          <height>21</height>
         </rect>
@@ -221,7 +221,7 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>140</y>
+         <y>170</y>
          <width>91</width>
          <height>21</height>
         </rect>
@@ -234,7 +234,7 @@
        <property name="geometry">
         <rect>
          <x>120</x>
-         <y>110</y>
+         <y>140</y>
          <width>71</width>
          <height>21</height>
         </rect>
@@ -247,7 +247,7 @@
        <property name="geometry">
         <rect>
          <x>120</x>
-         <y>140</y>
+         <y>170</y>
          <width>71</width>
          <height>21</height>
         </rect>
@@ -260,7 +260,7 @@
        <property name="geometry">
         <rect>
          <x>120</x>
-         <y>80</y>
+         <y>110</y>
          <width>71</width>
          <height>21</height>
         </rect>
@@ -271,6 +271,72 @@
        <property name="maxLength">
         <number>255</number>
        </property>
+      </widget>
+      <widget class="QLabel" name="label_14">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>80</y>
+         <width>91</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>参考增益</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="comboBox">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>80</y>
+         <width>69</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="currentIndex">
+        <number>3</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>1/8</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1/4</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>3/8</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1/2</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>5/8</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>3/4</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>7/8</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>1</string>
+        </property>
+       </item>
       </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox_2">
@@ -506,7 +572,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>550</y>
+        <y>590</y>
         <width>211</width>
         <height>41</height>
        </rect>
@@ -519,7 +585,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>600</y>
+        <y>640</y>
         <width>211</width>
         <height>41</height>
        </rect>
@@ -532,7 +598,7 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>650</y>
+        <y>690</y>
         <width>211</width>
         <height>41</height>
        </rect>
@@ -626,7 +692,7 @@
       <x>290</x>
       <y>10</y>
       <width>931</width>
-      <height>291</height>
+      <height>311</height>
      </rect>
     </property>
    </widget>
@@ -634,9 +700,9 @@
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>310</y>
+      <y>330</y>
       <width>931</width>
-      <height>291</height>
+      <height>311</height>
      </rect>
     </property>
    </widget>
@@ -644,7 +710,7 @@
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>700</y>
+      <y>750</y>
       <width>141</width>
       <height>24</height>
      </rect>
@@ -660,7 +726,7 @@
     <property name="geometry">
      <rect>
       <x>440</x>
-      <y>700</y>
+      <y>750</y>
       <width>761</width>
       <height>21</height>
      </rect>
@@ -676,7 +742,7 @@
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>610</y>
+      <y>660</y>
       <width>441</width>
       <height>81</height>
      </rect>
@@ -689,7 +755,7 @@
      <x>0</x>
      <y>0</y>
      <width>1235</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSYS">
