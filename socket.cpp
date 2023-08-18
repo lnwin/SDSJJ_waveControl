@@ -352,7 +352,6 @@ QByteArray socket_SYS::readUIParameter(int type)
 {
     QByteArray UIParameter;
     UIParameter.resize(16);
-
      UIParameter[0]=mui->emissionN->currentIndex()+1;
      UIParameter[1]=int(mui->emissionVoltage->text().toFloat()*10);
      UIParameter[2]=mui->waveformCyclesN->text().toInt();

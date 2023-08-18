@@ -37,7 +37,7 @@ void waveConfig::on_addOrder_clicked()
 
     TVmodel->setItem(OrderIndex, 0, new QStandardItem(""));
 
-    waveType->addItems({ "正弦波","高斯波" });
+    waveType->addItems({ "高斯波","正弦波" });
     ui->tableView->setIndexWidget(TVmodel->index(OrderIndex, 0), waveType);
     TVmodel->setItem(OrderIndex, 1, new QStandardItem("10"));
     TVmodel->setItem(OrderIndex, 2, new QStandardItem("0.5"));

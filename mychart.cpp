@@ -120,3 +120,10 @@ if((!C1.empty())&&(!C2.empty()))
 
 
 
+
+
+void myChart::on_pushButton_clicked()
+{
+
+}
+
