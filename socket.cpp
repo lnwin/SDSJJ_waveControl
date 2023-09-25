@@ -46,7 +46,7 @@ bool socket_SYS::socket_Listening()
          // connect(mainServer, SIGNAL(close()),this, SLOT(socket_SoptListening()));
          // qDebug()<<"mainServer listening ok";
             QDateTime time = QDateTime::currentDateTime();
-            QString mymsg =time.toString("yyyy-MM-dd hh:mm:ss  ")+"监听成功!";
+            QString mymsg =time.toString("yyyy-MM-dd hh:mm:ss  ")+"网络初始化成功!";
            // mui->textEdit->append(QStringLiteral("监听成功！"));
             mui->textEdit->append(mymsg);
             mui->textEdit->moveCursor(QTextCursor::Down);
@@ -58,7 +58,7 @@ bool socket_SYS::socket_Listening()
           // qDebug()<<"TCP_Sever listen failed, Plesas change TCP_Sever IP to >>192.168.1.65<<!";
            //qDebug()<<"Socket isListening thread"<<QThread::currentThread();
            QDateTime time = QDateTime::currentDateTime();
-            QString mymsg =time.toString("yyyy-MM-dd hh:mm:ss  ")+"监听失败, 请尝试将IP改为 >>192.168.1.100<<!";
+            QString mymsg =time.toString("yyyy-MM-dd hh:mm:ss  ")+"网络初始化失败, 请尝试将IP改为 >>192.168.1.100<<!";
             mui->textEdit->append(mymsg);
             return  false;
 
@@ -71,7 +71,7 @@ bool socket_SYS::socket_Listening()
     {
           mainServer->close();
 
-          mui->textEdit->append(QStringLiteral("监听已关闭!"));
+          mui->textEdit->append(QStringLiteral("网络已关闭!"));
           mui->textEdit->moveCursor(QTextCursor::Down);
         // ui->PortButton->setText("Start Listen");
        //  ui->Net_light->setStyleSheet("border-image: url(:/new/icon/picture/gray.png);");
@@ -132,7 +132,10 @@ void socket_SYS::wave_socket_Read_Data()
         emit sendMSG2Log(str);
     }
 
-    myHead=str.left(8);
+    if(str.size()>=8)
+    {
+         myHead=str.left(8);
+    }
 
     if(myHead=="YES@@@@@")
     {
@@ -218,6 +221,8 @@ void socket_SYS::wave_socket_Read_Data()
        // qDebug()<<"str.split("")[4].toDouble()===="<<  QString::number( float(str.split(" ")[2].toInt(nullptr, 16))*0.1) ;
     }
    // qDebug()<<"origin===="<<str;
+    QString checkString;
+    checkString=str.right(3);
     if(str=="YES")
     {
         emit sendCallBack();
@@ -230,6 +235,7 @@ void socket_SYS::wave_socket_Read_Data()
         }
 
     }
+    checkString=str.right(10);
     if(str=="FINISH\r\n")
     {
 
@@ -255,6 +261,7 @@ void socket_SYS::wave_socket_Read_Data()
            noMode=false;
            currentdataStream+=cuthead[2];
            // str.remove(str.indexOf("/r/n"),str.length()-1);
+           fileKeyMSG.clear();
            fileKeyMSG=cuthead[0]+"K"+cuthead[1]+"K";
            fileKeyMSG.remove(0,10);
            qDebug()<<"str5555====="<<str;
@@ -309,6 +316,7 @@ void socket_SYS::wave_socket_Read_Data()
                     qDebug()<<" finalcurrentdataStream===="<<finalcurrentdataStream;
                   //currentdataStream.remove(0, currentdataStream.indexOf("K")+1);
                   //QString finalcurrentdataStream=currentdataStream;//本地测试是9，实际需要改成7;
+                    secondSavemyData.clear();
                     analyzeCurrentData(finalcurrentdataStream,Range);
                     //saveFileData(finalcurrentdataStream);
                     currentdataStream.clear();
@@ -448,7 +456,7 @@ void socket_SYS::analyzeCurrentData(QString cd,QString head)
     qDebug()<<"myRange=============="<<myRange;
     bool ok;
     int countN=cdList.size();
-     for(int i=0;i<countN-1;i++)
+     for(int i=0;i<countN;i++)
      {
         channal_1.append((cdList[i].split(" ")[0].toDouble(&ok)*1.65)/8192);
         channal_2.append((cdList[i].split(" ")[1].toDouble(&ok)*1.65)/8192);
@@ -458,13 +466,14 @@ void socket_SYS::analyzeCurrentData(QString cd,QString head)
 
      myData.append( fileKeyMSG+="\r\n");
 
-     for(int i=0;i<countN-1;i++)
+     for(int i=0;i<countN;i++)
      {
-        myData.append(QString::number((cdList[i].split(" ")[0].toDouble(&ok)*1.65)/8192,'f', 3) );
+        myData.append(QString::number((cdList[i].split(" ")[0].toDouble(&ok)*1.65)/8192,'f', 4) );
         myData.append(" ");
-        myData.append(QString::number((cdList[i].split(" ")[1].toDouble(&ok)*1.65)/8192,'f', 3) );
+        myData.append(QString::number((cdList[i].split(" ")[1].toDouble(&ok)*1.65)/8192,'f', 4) );
         myData.append("\r");
      }
+     secondSavemyData=myData;
      saveFileData(myData);
     //qDebug()<<"channal_1=========="<<channal_1;
     //qDebug()<<"channal_2=========="<<channal_2;
@@ -501,12 +510,29 @@ void socket_SYS::saveFileData(QString fd)
             stream<<fd;
             file.close();
         }
-        fileKeyMSG.clear();
+
 
 
 
 };
+ void socket_SYS::savecurrentFileData(QString filename,QString filepath)
+ {
+     QFile file(filepath+"/"+filename+".txt");
+     if(!file.open(QIODevice::WriteOnly |QIODevice::Text))
+     {
+        qDebug()<<"save faile";
+     }
+     else
+     {
+         qDebug()<<"save ok";
+         QTextStream stream(&file);
+       //  stream.setEncoding (QStringConverter::System);   //输出编码设为System
+         stream<<secondSavemyData;
+         file.close();
+     }
 
+
+ };
 void socket_SYS::closeMySocket()
 {
     waveClient->close();
@@ -583,6 +609,9 @@ void socket_SYS::openSoundPower()
     MSG.append(ORG);
     waveClient->write(MSG);
 };
+
+
+
 
 
 

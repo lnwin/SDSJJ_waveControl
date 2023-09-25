@@ -19,7 +19,7 @@
      <rect>
       <x>760</x>
       <y>660</y>
-      <width>441</width>
+      <width>361</width>
       <height>81</height>
      </rect>
     </property>
@@ -727,7 +727,7 @@
      <rect>
       <x>440</x>
       <y>750</y>
-      <width>761</width>
+      <width>781</width>
       <height>21</height>
      </rect>
     </property>
@@ -746,6 +746,19 @@
       <width>441</width>
       <height>81</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_10">
+    <property name="geometry">
+     <rect>
+      <x>1130</x>
+      <y>660</y>
+      <width>91</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>保存当前数据</string>
     </property>
    </widget>
   </widget>

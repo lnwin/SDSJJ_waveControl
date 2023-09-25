@@ -15,6 +15,7 @@ SOURCES += \
     mainwindow.cpp \
     mychart.cpp \
     qcustomplot.cpp \
+    selectsavepath.cpp \
     socket.cpp \
     waveconfig.cpp
 
@@ -24,12 +25,14 @@ HEADERS += \
     mainwindow.h \
     mychart.h \
     qcustomplot.h \
+    selectsavepath.h \
     socket.h \
     waveconfig.h
 
 FORMS += \
     locallog.ui \
     mainwindow.ui \
+    selectsavepath.ui \
     waveconfig.ui
 
 # Default rules for deployment.

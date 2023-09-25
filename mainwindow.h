@@ -7,6 +7,7 @@
 #include <qfiledialog.h>
 #include <waveconfig.h>
 #include <locallog.h>
+#include <selectsavepath.h>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -24,6 +25,7 @@ public:
     socket_SYS *waveSocket;
     waveConfig *WC;
     LocalLog *myLocal;
+    selectSavePath *myselectSavePath;
 
  bool needLog=false;
 
@@ -40,6 +42,7 @@ public:
     void openSoundPower();
     void sendNeedLogFlag(bool);
     void sendUIlock();
+
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
@@ -69,6 +72,7 @@ public slots:
 
     void on_emissionInterval_editingFinished();
 
+    void on_pushButton_10_clicked();
 private:
     Ui::MainWindow *ui;
     QString  srcDirPath;

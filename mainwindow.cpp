@@ -15,7 +15,11 @@ MainWindow::MainWindow(QWidget *parent)
        WC=new waveConfig();
        waveChart=new myChart();
        myLocal=new LocalLog();
+       myselectSavePath=new selectSavePath();
        waveChart->chart_Init(ui);
+
+       connect(myselectSavePath,SIGNAL(sendSaveMSG(QString,QString)),waveSocket,SLOT (savecurrentFileData(QString ,QString )));
+
        connect(this,SIGNAL(socketInit()),waveSocket,SLOT (socket_Int()));
        connect(this,SIGNAL(sendMSG()),waveSocket,SLOT (wave_socket_SendMSG()));
        connect(this,SIGNAL(sendUIlock()),waveSocket,SLOT (receiveUIlock()));
@@ -258,4 +262,34 @@ void MainWindow::on_pushButton_9_clicked()
 {
      emit startSample();
      emit sendUIlock();
+}
+void MainWindow::on_pushButton_10_clicked()
+{
+
+    myselectSavePath->show();
+//      srcDirPath = QFileDialog::getExistingDirectory( this, "Rec path", "/");
+//       if (srcDirPath.isEmpty())
+//       {
+//           return;
+//       }
+//       else
+//       {
+//           ui->fileStream->setText(srcDirPath);
+
+//       }
+
+//if(!srcDirPath.isEmpty())
+//{
+//     emit sendSaveMSG(srcDirPath,srcDirPath);
+//}
+//else
+//{
+//    QMessageBox msgBox;
+//    msgBox.setText("文件名或路径不得为空");
+//    msgBox.exec();
+//}
+
+
+
+
 }

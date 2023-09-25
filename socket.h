@@ -29,6 +29,8 @@ public:
 
     Ui::MainWindow *mui;
     QByteArray readUIParameter(int type);
+
+
 signals:
   void sendSocketState2T(QString);
   void sendcontrolMSG2T(QVariantList val);
@@ -56,11 +58,13 @@ public slots:
     void openSoundPower();
     void receivedNeedLogFlag(bool);
     void shutDownFLag();
+    void savecurrentFileData(QString filename,QString filepath);
 
 private slots:
 
 
     void on_pushButton_clicked();
+
 
 
 
@@ -83,6 +87,7 @@ private:
     bool isSendpushed=false;
     bool isSending=false;
     bool isXLcode=false;
+     QString secondSavemyData;
 
 };
 
