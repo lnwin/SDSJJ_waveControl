@@ -253,7 +253,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>10</string>
+        <string>127</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="amplingLength">
@@ -266,7 +266,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>10</string>
+        <string>127</string>
        </property>
        <property name="maxLength">
         <number>255</number>
@@ -754,11 +754,24 @@
       <x>1130</x>
       <y>660</y>
       <width>91</width>
-      <height>81</height>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
      <string>保存当前数据</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="readfile">
+    <property name="geometry">
+     <rect>
+      <x>1130</x>
+      <y>700</y>
+      <width>91</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>数据回放</string>
     </property>
    </widget>
   </widget>
@@ -768,7 +781,7 @@
      <x>0</x>
      <y>0</y>
      <width>1235</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSYS">

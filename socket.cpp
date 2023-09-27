@@ -9,7 +9,7 @@ bool ISconnected_1=false;
 
 socket_SYS::socket_SYS(QObject *parent) : QObject(parent)
 {
-    qDebug()<<"socket_SYS thread"<<QThread::currentThread();
+  //  qDebug()<<"socket_SYS thread"<<QThread::currentThread();
 }
 socket_SYS::~socket_SYS()
 {
@@ -26,7 +26,7 @@ void socket_SYS::socket_Int()
     waveClient = new QTcpSocket();
     CRC =new crc();
     socket_Listening();
-    qDebug()<<"socket_Int thread"<<QThread::currentThread();
+   // qDebug()<<"socket_Int thread"<<QThread::currentThread();
 
 }
 bool socket_SYS::socket_Listening()
@@ -101,8 +101,8 @@ bool socket_SYS::server_New_Connect()
                QString mymsg =time.toString("yyyy-MM-dd hh:mm:ss  ")+"声学网络连接成功!";
                mui->textEdit->append(mymsg);
                mui->textEdit->moveCursor(QTextCursor::Down);
-               qDebug()<<waveClient->peerAddress();
-               qDebug()<<waveClient->peerPort();
+            //   qDebug()<<waveClient->peerAddress();
+            //   qDebug()<<waveClient->peerPort();
                connect(waveClient, SIGNAL(readyRead()), this, SLOT(wave_socket_Read_Data()));
                connect(waveClient, SIGNAL(disconnected()), this, SLOT(wave_socket_Disconnected()));
                return true;
@@ -125,7 +125,7 @@ void socket_SYS::wave_socket_Read_Data()
 
     str = QString::fromLocal8Bit(myData);
 
-    qDebug()<<"str==========="<<str;
+   // qDebug()<<"str==========="<<str;
 
     if(needLog())
     {
@@ -177,7 +177,7 @@ void socket_SYS::wave_socket_Read_Data()
         configMSG.append(QString::number( str.split(" ")[10].toInt(nullptr, 16)));
         configMSG.append(QString::number( str.split(" ")[11].toInt(nullptr, 16)));
         configMSG.append(QString::number( str.split(" ")[12].toInt(nullptr, 16)));
-         qDebug()<<"gf"<<str.split(" ")[13].toInt(nullptr, 16);
+       //  qDebug()<<"gf"<<str.split(" ")[13].toInt(nullptr, 16);
         if(str.split(" ")[13].toInt(nullptr, 16)==1)
         {
             configMSG.append("开");
@@ -236,6 +236,7 @@ void socket_SYS::wave_socket_Read_Data()
 
     }
     checkString=str.right(10);
+  //  qDebug()<<"checkString 10=="<<checkString;
     if(str=="FINISH\r\n")
     {
 
@@ -254,17 +255,17 @@ void socket_SYS::wave_socket_Read_Data()
            mui->textEdit->moveCursor(QTextCursor::Down);
            mui->textEdit->update();
 
-           QList<QString>cuthead =str.split("K");
+           QList<QString>cuthead =str.split("*");
 
            Range=cuthead[0];
            isCurrentData=true;
            noMode=false;
-           currentdataStream+=cuthead[2];
+           currentdataStream+=cuthead[1];
            // str.remove(str.indexOf("/r/n"),str.length()-1);
            fileKeyMSG.clear();
-           fileKeyMSG=cuthead[0]+"K"+cuthead[1]+"K";
-           fileKeyMSG.remove(0,10);
-           qDebug()<<"str5555====="<<str;
+           fileKeyMSG=cuthead[0].split("&")[1];
+           //fileKeyMSG.remove(0,10);
+         //  qDebug()<<"fileKeyMSG====="<<fileKeyMSG;
 
 
 
@@ -299,7 +300,7 @@ void socket_SYS::wave_socket_Read_Data()
             QString strHead=str.left(5);
             if(!(strHead=="$$$$$"))
             {
-                qDebug()<<"strTips===="<<strTips;
+               // qDebug()<<"strTips===="<<strTips;
                // qDebug()<<" currentdataStream+=str===="<<str;
                 currentdataStream+=str;
                 if(strTips=="&&&&&\r\n")// 实际使用
@@ -313,7 +314,7 @@ void socket_SYS::wave_socket_Read_Data()
                     mui->textEdit->moveCursor(QTextCursor::Down);
                     mui->textEdit->update();
                     QString finalcurrentdataStream=currentdataStream.remove(currentdataStream.length()-8,8);//本地测试是9，实际需要改成7
-                    qDebug()<<" finalcurrentdataStream===="<<finalcurrentdataStream;
+                  //  qDebug()<<" finalcurrentdataStream===="<<finalcurrentdataStream;
                   //currentdataStream.remove(0, currentdataStream.indexOf("K")+1);
                   //QString finalcurrentdataStream=currentdataStream;//本地测试是9，实际需要改成7;
                     secondSavemyData.clear();
@@ -327,7 +328,7 @@ void socket_SYS::wave_socket_Read_Data()
         else if (isFileData)
         {
             filsedataStream+=str;
-            qDebug()<<"ENDstrTips===="<<strTips;
+           // qDebug()<<"ENDstrTips===="<<strTips;
              if(strTips=="&&&&&\r\n") //实际使用
             // if(strTips=="&&&&&\r\n")//本地测试用
             {
@@ -395,7 +396,7 @@ void socket_SYS::readMyConfig()
     MSG[0]=(C3<<8)>>8;
     MSG.append(ORG);
     waveClient->write(MSG);
-    qDebug()<<MSG.toHex();
+  //  qDebug()<<MSG.toHex();
 
 };
 void socket_SYS::wave_socket_SendMSG()
@@ -407,7 +408,7 @@ void socket_SYS::wave_socket_SendMSG()
     MSG[1]=C3>>8;//高位在后
     MSG[0]=(C3<<8)>>8;
     MSG.append(readUIParameter(4));
-    qDebug()<<"MSG.toHex()"<<MSG.toHex();
+  //  qDebug()<<"MSG.toHex()"<<MSG.toHex();
     waveClient->write(MSG);
 
 };
@@ -450,10 +451,10 @@ void socket_SYS::analyzeCurrentData(QString cd,QString head)
     QList<double>channal_2;
     QString myData;
 
-    QList<QString>cdList=cd.split("\n");
+    QList<QString>cdList=cd.split("\r");
     QList<QString>myRange=head.split("&");
-    qDebug()<<"cd=============="<<cd;
-    qDebug()<<"myRange=============="<<myRange;
+   // qDebug()<<"cd=============="<<cd;
+    //qDebug()<<"myRange=============="<<myRange;
     bool ok;
     int countN=cdList.size();
      for(int i=0;i<countN;i++)
@@ -471,7 +472,7 @@ void socket_SYS::analyzeCurrentData(QString cd,QString head)
         myData.append(QString::number((cdList[i].split(" ")[0].toDouble(&ok)*1.65)/8192,'f', 4) );
         myData.append(" ");
         myData.append(QString::number((cdList[i].split(" ")[1].toDouble(&ok)*1.65)/8192,'f', 4) );
-        myData.append("\r");
+        myData.append("\n");
      }
      secondSavemyData=myData;
      saveFileData(myData);
@@ -500,11 +501,11 @@ void socket_SYS::saveFileData(QString fd)
         QFile file(myFilePath+"/"+myTime+".txt");
         if(!file.open(QIODevice::WriteOnly |QIODevice::Text))
         {
-           qDebug()<<"save faile";
+          // qDebug()<<"save faile";
         }
         else
         {
-            qDebug()<<"save ok";
+          //  qDebug()<<"save ok";
             QTextStream stream(&file);
           //  stream.setEncoding (QStringConverter::System);   //输出编码设为System
             stream<<fd;
@@ -520,11 +521,11 @@ void socket_SYS::saveFileData(QString fd)
      QFile file(filepath+"/"+filename+".txt");
      if(!file.open(QIODevice::WriteOnly |QIODevice::Text))
      {
-        qDebug()<<"save faile";
+       // qDebug()<<"save faile";
      }
      else
      {
-         qDebug()<<"save ok";
+        // qDebug()<<"save ok";
          QTextStream stream(&file);
        //  stream.setEncoding (QStringConverter::System);   //输出编码设为System
          stream<<secondSavemyData;

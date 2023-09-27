@@ -6,7 +6,11 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
        ui->setupUi(this);
+       mytimer=new QTimer(this);
 
+
+       connect(mytimer, SIGNAL(timeout()), this, SLOT(testcycle()));
+       mytimer->setInterval(10000);
        //this->model = new QStandardItemModel;   //创建一个标准的条目模型
        qDebug()<<"main thread"<<QThread::currentThread();
        waveSocketThread =new QThread();
@@ -16,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
        waveChart=new myChart();
        myLocal=new LocalLog();
        myselectSavePath=new selectSavePath();
+       myreadfile=new readfile();
        waveChart->chart_Init(ui);
 
        connect(myselectSavePath,SIGNAL(sendSaveMSG(QString,QString)),waveSocket,SLOT (savecurrentFileData(QString ,QString )));
@@ -31,7 +36,11 @@ MainWindow::MainWindow(QWidget *parent)
        connect(this,SIGNAL(closeSoundPower()),waveSocket,SLOT (closeSoundPower()));
        connect(this,SIGNAL(openSoundPower()),waveSocket,SLOT (openSoundPower()));
 
-       connect(waveSocket,SIGNAL(sendCallBack()),this,SLOT (receiveCallBack()));
+
+      // connect(waveSocket,SIGNAL(sendCallBack()),this,SLOT (receiveCallBack()));  //定时器测试关闭循环
+
+
+
        connect(waveSocket,SIGNAL(sendConfig2M(QList<QString>)),this,SLOT (receiveConfigMSG(QList<QString>)));
 
 
@@ -65,6 +74,31 @@ void MainWindow::receiveUIlock(bool lock)
     }
 };
 
+int cyclecount=0;
+void MainWindow::testcycle()
+{
+    if(ui->tabWidget->isEnabled())
+    {
+        emit startSample();
+
+         QString msg="循环次数："+QString::number(cyclecount,10);
+        ui->textEdit->append(msg);
+        cyclecount+=1;
+    }
+
+}
+void MainWindow::on_readfile_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName( this, "选择文件", ui->fileStream->text(), "文档(*.txt);");
+    if (!fileName.isEmpty()) {
+         qDebug() << "this is the file name " << fileName;
+
+         if(myreadfile->readMyfile(fileName))
+         myreadfile->show();
+    }
+
+}
+
 void MainWindow::openLocalLog()
 {
     if(!needLog)
@@ -92,6 +126,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_clicked()
 {
     emit sendMSG();
+    mytimer->start();
 }
 
 

@@ -8,6 +8,8 @@
 #include <waveconfig.h>
 #include <locallog.h>
 #include <selectsavepath.h>
+#include <readfile.h>
+#include <QTimer>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -26,6 +28,8 @@ public:
     waveConfig *WC;
     LocalLog *myLocal;
     selectSavePath *myselectSavePath;
+    readfile *myreadfile;
+    QTimer* mytimer;
 
  bool needLog=false;
 
@@ -73,6 +77,9 @@ public slots:
     void on_emissionInterval_editingFinished();
 
     void on_pushButton_10_clicked();
+    void on_readfile_clicked();
+
+    void testcycle();
 private:
     Ui::MainWindow *ui;
     QString  srcDirPath;

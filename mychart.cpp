@@ -80,12 +80,12 @@ if((!C1.empty())&&(!C2.empty()))
     double C2min = *std::min_element(std::begin(C2), std::end(C2));
     int xStart=(range[0].split("|")[1].toInt(&YYY));
     int xEnd=(range[0].split("|")[2].toInt(&YYY));//本地是4，实际是2
-    qDebug()<<"dataLength"<<dataLength;
-    qDebug()<<"range"<<range;
-    qDebug()<<"xStart"<<xStart;
-    qDebug()<<"xEnd"<<xEnd;
-    qDebug()<<"C2max"<<C2max;
-    qDebug()<<"C2min"<<C2min;
+//    qDebug()<<"dataLength"<<dataLength;
+//    qDebug()<<"range"<<range;
+//    qDebug()<<"xStart"<<xStart;
+//    qDebug()<<"xEnd"<<xEnd;
+//    qDebug()<<"C2max"<<C2max;
+//    qDebug()<<"C2min"<<C2min;
 
     mcui->channel1->yAxis->setRange(C1min*1.1, C1max*1.1);
     mcui->channel1->xAxis->setRange(0, dataLength);
@@ -126,4 +126,6 @@ void myChart::on_pushButton_clicked()
 {
 
 }
+
+
 

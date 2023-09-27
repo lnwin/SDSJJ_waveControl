@@ -15,6 +15,7 @@ SOURCES += \
     mainwindow.cpp \
     mychart.cpp \
     qcustomplot.cpp \
+    readfile.cpp \
     selectsavepath.cpp \
     socket.cpp \
     waveconfig.cpp
@@ -25,6 +26,7 @@ HEADERS += \
     mainwindow.h \
     mychart.h \
     qcustomplot.h \
+    readfile.h \
     selectsavepath.h \
     socket.h \
     waveconfig.h
@@ -32,6 +34,7 @@ HEADERS += \
 FORMS += \
     locallog.ui \
     mainwindow.ui \
+    readfile.ui \
     selectsavepath.ui \
     waveconfig.ui
 

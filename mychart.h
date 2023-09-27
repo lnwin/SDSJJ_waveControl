@@ -20,6 +20,7 @@ public slots:
 private slots:
 
     void on_pushButton_clicked();
+
 };
 
 #endif // MYCHART_H
