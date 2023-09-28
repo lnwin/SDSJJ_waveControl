@@ -75,10 +75,11 @@ bool socket_SYS::socket_Listening()
           mui->textEdit->moveCursor(QTextCursor::Down);
         // ui->PortButton->setText("Start Listen");
        //  ui->Net_light->setStyleSheet("border-image: url(:/new/icon/picture/gray.png);");
+          return  false;
     }
 
 
-}
+};
 
 
 
@@ -115,15 +116,22 @@ bool socket_SYS::server_New_Connect()
 
 
 }
-
+//int readcount=0;
 void socket_SYS::wave_socket_Read_Data()
 {
+//           if(readcount>=20)
+//           {
+//               mui->textEdit->clear();
+//           }
+
     QByteArray waveData = waveClient->readAll();
+    Sleep(20);
     char *myData = waveData.data();
     QString str;
     QString myHead;
 
     str = QString::fromLocal8Bit(myData);
+
 
    // qDebug()<<"str==========="<<str;
 
@@ -220,9 +228,7 @@ void socket_SYS::wave_socket_Read_Data()
         configMSG.clear();
        // qDebug()<<"str.split("")[4].toDouble()===="<<  QString::number( float(str.split(" ")[2].toInt(nullptr, 16))*0.1) ;
     }
-   // qDebug()<<"origin===="<<str;
-    QString checkString;
-    checkString=str.right(3);
+
     if(str=="YES")
     {
         emit sendCallBack();
@@ -235,14 +241,7 @@ void socket_SYS::wave_socket_Read_Data()
         }
 
     }
-    checkString=str.right(10);
-  //  qDebug()<<"checkString 10=="<<checkString;
-    if(str=="FINISH\r\n")
-    {
 
-      emit sendUIlock(false);
-      //qDebug()<<"received FINISH";
-    }
     if(noMode)
     {
         QString strHead;
@@ -306,6 +305,7 @@ void socket_SYS::wave_socket_Read_Data()
                 if(strTips=="&&&&&\r\n")// 实际使用
                 //if(strTips=="&&&\\r\\n")//本地测试用
                 {
+                    emit sendUIlock(false);
                     isCurrentData=false;
                     noMode=true;
                     QDateTime time = QDateTime::currentDateTime();
@@ -321,32 +321,38 @@ void socket_SYS::wave_socket_Read_Data()
                     analyzeCurrentData(finalcurrentdataStream,Range);
                     //saveFileData(finalcurrentdataStream);
                     currentdataStream.clear();
+
+
                 }
             }
 
         }
         else if (isFileData)
         {
-            filsedataStream+=str;
-           // qDebug()<<"ENDstrTips===="<<strTips;
-             if(strTips=="&&&&&\r\n") //实际使用
-            // if(strTips=="&&&&&\r\n")//本地测试用
-            {
+//            filsedataStream+=str;
+//           // qDebug()<<"ENDstrTips===="<<strTips;
+//             if(strTips=="&&&&&\r\n") //实际使用
+//            // if(strTips=="&&&&&\r\n")//本地测试用
+//            {
 
-                isCurrentData=false;
-                noMode=true;
-                QDateTime time = QDateTime::currentDateTime();
-                QString mymsg =time.toString("yyyy-MM-dd hh:mm:ss  ")+"波形文件接收结束!";
-                mui->textEdit->append(mymsg);
-                mui->textEdit->moveCursor(QTextCursor::Down);
-                mui->textEdit->update();
-                QString finalfilsedataStream=filsedataStream.remove(filsedataStream.indexOf("&"),7);
-                filsedataStream.clear();
-               // emit sendUIlock(false);
-            }
+//                isCurrentData=false;
+//                noMode=true;
+//                QDateTime time = QDateTime::currentDateTime();
+//                QString mymsg =time.toString("yyyy-MM-dd hh:mm:ss  ")+"波形文件接收结束!";
+//                mui->textEdit->append(mymsg);
+//                mui->textEdit->moveCursor(QTextCursor::Down);
+//                mui->textEdit->update();
+//                QString finalfilsedataStream=filsedataStream.remove(filsedataStream.indexOf("&"),7);
+//                filsedataStream.clear();
+//               // emit sendUIlock(false);
+//            }
 
         }
     }
+
+
+   // readcount+=1;
+
 
 }
 void socket_SYS::wave_socket_Disconnected()
@@ -474,11 +480,14 @@ void socket_SYS::analyzeCurrentData(QString cd,QString head)
         myData.append(QString::number((cdList[i].split(" ")[1].toDouble(&ok)*1.65)/8192,'f', 4) );
         myData.append("\n");
      }
+
+     emit sendData2Save(myData,myFilePath);
      secondSavemyData=myData;
-     saveFileData(myData);
+    // saveFileData(myData);
     //qDebug()<<"channal_1=========="<<channal_1;
     //qDebug()<<"channal_2=========="<<channal_2;
 }
+
 
 bool socket_SYS::needLog()
 {

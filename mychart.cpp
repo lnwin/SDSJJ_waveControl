@@ -101,8 +101,8 @@ if((!C1.empty())&&(!C2.empty()))
        myC2Y[i]=C2[i];
    }
 
-   qDebug()<<"D0==="<< myC1Y[0];
-   qDebug()<<"D1==="<< myC2Y[0];
+  // qDebug()<<"D0==="<< myC1Y[0];
+  // qDebug()<<"D1==="<< myC2Y[0];
 
    mcui->channel1->graph()->setData(myX,myC1Y);
    mcui->channel1->graph()->setName( QString::number(xStart,10)+"k--"+QString::number(xEnd,10)+ "k波形图");

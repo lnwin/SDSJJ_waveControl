@@ -16,6 +16,7 @@ SOURCES += \
     mychart.cpp \
     qcustomplot.cpp \
     readfile.cpp \
+    savethread.cpp \
     selectsavepath.cpp \
     socket.cpp \
     waveconfig.cpp
@@ -27,6 +28,7 @@ HEADERS += \
     mychart.h \
     qcustomplot.h \
     readfile.h \
+    savethread.h \
     selectsavepath.h \
     socket.h \
     waveconfig.h

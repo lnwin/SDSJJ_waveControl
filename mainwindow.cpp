@@ -6,15 +6,19 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
        ui->setupUi(this);
-       mytimer=new QTimer(this);
 
+//       mytimer=new QTimer(this);
+//       connect(mytimer, SIGNAL(timeout()), this, SLOT(testcycle()));
+//       mytimer->setInterval(10000);
 
-       connect(mytimer, SIGNAL(timeout()), this, SLOT(testcycle()));
-       mytimer->setInterval(10000);
        //this->model = new QStandardItemModel;   //创建一个标准的条目模型
        qDebug()<<"main thread"<<QThread::currentThread();
        waveSocketThread =new QThread();
        waveChartThread=new QThread();
+       mysavethread=new savethread();
+       savethreadThread= new QThread();
+       mysavethread->moveToThread(savethreadThread);
+       savethreadThread->start();
        waveSocket =new socket_SYS(ui);
        WC=new waveConfig();
        waveChart=new myChart();
@@ -37,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
        connect(this,SIGNAL(openSoundPower()),waveSocket,SLOT (openSoundPower()));
 
 
-      // connect(waveSocket,SIGNAL(sendCallBack()),this,SLOT (receiveCallBack()));  //定时器测试关闭循环
+       connect(waveSocket,SIGNAL(sendCallBack()),this,SLOT (receiveCallBack()));  //定时器测试关闭循环
 
 
 
@@ -60,6 +64,9 @@ MainWindow::MainWindow(QWidget *parent)
 
        connect(waveSocket,SIGNAL(sendUIlock(bool)),this,SLOT(receiveUIlock(bool)));
 
+       connect(waveSocket,SIGNAL(sendData2Save(QString,QString)),mysavethread,SLOT(savemydate(QString,QString)));
+
+
 
 }
 void MainWindow::receiveUIlock(bool lock)
@@ -74,19 +81,19 @@ void MainWindow::receiveUIlock(bool lock)
     }
 };
 
-int cyclecount=0;
-void MainWindow::testcycle()
-{
-    if(ui->tabWidget->isEnabled())
-    {
-        emit startSample();
+//int cyclecount=0;
+//void MainWindow::testcycle()
+//{
+//    if(ui->tabWidget->isEnabled())
+//    {
+//        emit startSample();
 
-         QString msg="循环次数："+QString::number(cyclecount,10);
-        ui->textEdit->append(msg);
-        cyclecount+=1;
-    }
+//         QString msg="循环次数："+QString::number(cyclecount,10);
+//        ui->textEdit->append(msg);
+//        cyclecount+=1;
+//    }
 
-}
+//}
 void MainWindow::on_readfile_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName( this, "选择文件", ui->fileStream->text(), "文档(*.txt);");

@@ -40,6 +40,7 @@ signals:
   void sendMSG2Log(QString);
 
   void sendUIlock(bool);
+  void sendData2Save(QString,QString);
 
 public slots:
     void socket_Int();

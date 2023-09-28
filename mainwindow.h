@@ -10,6 +10,7 @@
 #include <selectsavepath.h>
 #include <readfile.h>
 #include <QTimer>
+#include <savethread.h>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -23,6 +24,7 @@ public:
     ~MainWindow();
     QThread *waveSocketThread ;
     QThread *waveChartThread ;
+    QThread *savethreadThread;
     myChart *waveChart;
     socket_SYS *waveSocket;
     waveConfig *WC;
@@ -30,6 +32,8 @@ public:
     selectSavePath *myselectSavePath;
     readfile *myreadfile;
     QTimer* mytimer;
+    savethread*mysavethread;
+
 
  bool needLog=false;
 
@@ -46,6 +50,7 @@ public:
     void openSoundPower();
     void sendNeedLogFlag(bool);
     void sendUIlock();
+
 
 private slots:
     void on_pushButton_clicked();
@@ -79,7 +84,7 @@ public slots:
     void on_pushButton_10_clicked();
     void on_readfile_clicked();
 
-    void testcycle();
+    //void testcycle();
 private:
     Ui::MainWindow *ui;
     QString  srcDirPath;
