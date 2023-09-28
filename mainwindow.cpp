@@ -133,7 +133,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_clicked()
 {
     emit sendMSG();
-    mytimer->start();
+   // mytimer->start();
 }
 
 
