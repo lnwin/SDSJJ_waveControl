@@ -313,7 +313,7 @@ void socket_SYS::wave_socket_Read_Data()
                     mui->textEdit->append(mymsg);
                     mui->textEdit->moveCursor(QTextCursor::Down);
                     mui->textEdit->update();
-                    QString finalcurrentdataStream=currentdataStream.remove(currentdataStream.length()-8,8);//本地测试是9，实际需要改成7
+                    QString finalcurrentdataStream=currentdataStream.remove(currentdataStream.length()-7,7);//本地测试是9，实际需要改成7
                   //  qDebug()<<" finalcurrentdataStream===="<<finalcurrentdataStream;
                   //currentdataStream.remove(0, currentdataStream.indexOf("K")+1);
                   //QString finalcurrentdataStream=currentdataStream;//本地测试是9，实际需要改成7;
