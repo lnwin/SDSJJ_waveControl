@@ -104,6 +104,7 @@ bool readfile::readMyfile(QString filename)
            // qDebug()<<"readLine==="<<line;
             if(isfirst)
             {
+                ui->textEdit->clear();
                 ui->textEdit->append(line);
                 qDebug()<<line;
                 l1= line.split("：");
