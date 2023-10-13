@@ -264,11 +264,6 @@ void socket_SYS::wave_socket_Read_Data()
            fileKeyMSG.clear();
            fileKeyMSG=cuthead[0].split("&")[1];
            //fileKeyMSG.remove(0,10);
-         //  qDebug()<<"fileKeyMSG====="<<fileKeyMSG;
-
-
-
-
 
         }
         else if (strHead=="#####")
@@ -314,9 +309,9 @@ void socket_SYS::wave_socket_Read_Data()
                     mui->textEdit->moveCursor(QTextCursor::Down);
                     mui->textEdit->update();
                     QString finalcurrentdataStream=currentdataStream.remove(currentdataStream.length()-7,7);//本地测试是9，实际需要改成7
-                  //  qDebug()<<" finalcurrentdataStream===="<<finalcurrentdataStream;
-                  //currentdataStream.remove(0, currentdataStream.indexOf("K")+1);
-                  //QString finalcurrentdataStream=currentdataStream;//本地测试是9，实际需要改成7;
+                    //qDebug()<<" finalcurrentdataStream===="<<finalcurrentdataStream;
+                    //currentdataStream.remove(0, currentdataStream.indexOf("K")+1);
+                    //QString finalcurrentdataStream=currentdataStream;//本地测试是9，实际需要改成7;
                     secondSavemyData.clear();
                     analyzeCurrentData(finalcurrentdataStream,Range);
                     //saveFileData(finalcurrentdataStream);
@@ -334,7 +329,6 @@ void socket_SYS::wave_socket_Read_Data()
 //             if(strTips=="&&&&&\r\n") //实际使用
 //            // if(strTips=="&&&&&\r\n")//本地测试用
 //            {
-
 //                isCurrentData=false;
 //                noMode=true;
 //                QDateTime time = QDateTime::currentDateTime();
@@ -483,7 +477,7 @@ void socket_SYS::analyzeCurrentData(QString cd,QString head)
 
      emit sendData2Save(myData,myFilePath);
      secondSavemyData=myData;
-    // saveFileData(myData);
+    //saveFileData(myData);
     //qDebug()<<"channal_1=========="<<channal_1;
     //qDebug()<<"channal_2=========="<<channal_2;
 }

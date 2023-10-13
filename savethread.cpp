@@ -9,7 +9,9 @@ savethread::savethread()
 void savethread::savemydate(QString date,QString filepath)
 {
     QDateTime time = QDateTime::currentDateTime();
-    QString myTime =time.toString("yyyy-MM-dd_hh_mm_ss");
+
+    QString myHz = date.split("\r\n")[0].split("发射频率")[1].split("|")[0].remove(0,1);
+    QString myTime =time.toString("yyyy-MM-dd_hh_mm_ss")+"_"+myHz;
     QFile file(filepath+"/"+myTime+".txt");
     if(!file.open(QIODevice::WriteOnly |QIODevice::Text))
     {
