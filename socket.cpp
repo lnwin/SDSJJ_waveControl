@@ -57,7 +57,7 @@ bool socket_SYS::socket_Listening()
           // ui->textEdit->append("Listening failed, Plesas change TCP_Sever IP to >>192.168.1.65<<!");
           // qDebug()<<"TCP_Sever listen failed, Plesas change TCP_Sever IP to >>192.168.1.65<<!";
            //qDebug()<<"Socket isListening thread"<<QThread::currentThread();
-           QDateTime time = QDateTime::currentDateTime();
+            QDateTime time = QDateTime::currentDateTime();
             QString mymsg =time.toString("yyyy-MM-dd hh:mm:ss  ")+"网络初始化失败, 请尝试将IP改为 >>192.168.1.100<<!";
             mui->textEdit->append(mymsg);
             return  false;
@@ -125,7 +125,7 @@ void socket_SYS::wave_socket_Read_Data()
 //           }
 
     QByteArray waveData = waveClient->readAll();
-    Sleep(20);
+    //Sleep(20);
     char *myData = waveData.data();
     QString str;
     QString myHead;
@@ -245,6 +245,8 @@ void socket_SYS::wave_socket_Read_Data()
     if(noMode)
     {
         QString strHead;
+        if(str.size()>=5)
+        {
         strHead=str.left(5);
         if(strHead=="$$$$$")
         {
@@ -282,23 +284,32 @@ void socket_SYS::wave_socket_Read_Data()
             }
 
         }
-
+        }
     }
     else
     {
          QString strTips;
-         strTips=str.right(7);
+
 
         if(isCurrentData)
         {
-            QString strHead=str.left(5);
+            QString strHead;
+            if(str.size()>=5)
+            {
+               strHead=str.left(5);
+            }
             if(!(strHead=="$$$$$"))
             {
                // qDebug()<<"strTips===="<<strTips;
                // qDebug()<<" currentdataStream+=str===="<<str;
                 currentdataStream+=str;
+
+                if(str.size()>=7)
+                {
+                 strTips=str.right(7);
+
                 if(strTips=="&&&&&\r\n")// 实际使用
-                //if(strTips=="&&&\\r\\n")//本地测试用
+
                 {
                     emit sendUIlock(false);
                     isCurrentData=false;
@@ -319,29 +330,11 @@ void socket_SYS::wave_socket_Read_Data()
 
 
                 }
+              }
             }
 
         }
-        else if (isFileData)
-        {
-//            filsedataStream+=str;
-//           // qDebug()<<"ENDstrTips===="<<strTips;
-//             if(strTips=="&&&&&\r\n") //实际使用
-//            // if(strTips=="&&&&&\r\n")//本地测试用
-//            {
-//                isCurrentData=false;
-//                noMode=true;
-//                QDateTime time = QDateTime::currentDateTime();
-//                QString mymsg =time.toString("yyyy-MM-dd hh:mm:ss  ")+"波形文件接收结束!";
-//                mui->textEdit->append(mymsg);
-//                mui->textEdit->moveCursor(QTextCursor::Down);
-//                mui->textEdit->update();
-//                QString finalfilsedataStream=filsedataStream.remove(filsedataStream.indexOf("&"),7);
-//                filsedataStream.clear();
-//               // emit sendUIlock(false);
-//            }
 
-        }
     }
 
 
@@ -375,8 +368,8 @@ QByteArray socket_SYS::readUIParameter(int type)
      UIParameter[11]=mui->waveGetEnd->text().toInt();
      UIParameter[12]=mui->powercomboBox->currentIndex()+1;
      UIParameter[13]=mui->comboBox->currentIndex();
-       UIParameter[14]=1;
-       UIParameter[15]=type;
+     UIParameter[14]=1;
+     UIParameter[15]=type;
     // UIParameter.resize(sizeof(UIParameterF));
     // memcpy(UIParameter.data(), &UIParameterF, sizeof(UIParameter));
      return UIParameter;
@@ -430,12 +423,8 @@ void socket_SYS::startSample()
     MSG[1]=C3>>8;//高位在后
     MSG[0]=(C3<<8)>>8;
     MSG.append(ORG);
-    waveClient->write(MSG);
-   // if(isXLcode)
-   // {
-       // isXLcode=false;
-        isSendpushed=true;
-   // }
+    waveClient->write(MSG); 
+    isSendpushed=true;
 
 
 }
@@ -457,10 +446,23 @@ void socket_SYS::analyzeCurrentData(QString cd,QString head)
     //qDebug()<<"myRange=============="<<myRange;
     bool ok;
     int countN=cdList.size();
+
+
+
      for(int i=0;i<countN;i++)
      {
-        channal_1.append((cdList[i].split(" ")[0].toDouble(&ok)*1.65)/8192);
-        channal_2.append((cdList[i].split(" ")[1].toDouble(&ok)*1.65)/8192);
+          if(cdList[i].split(" ").length()<2)
+          {
+              QMessageBox msgBox;
+              msgBox.setText("接收或参考波形数据缺失！");
+              msgBox.exec();
+          }
+          else
+          {
+              channal_1.append((cdList[i].split(" ")[0].toDouble(&ok)*1.65)/8192);
+              channal_2.append((cdList[i].split(" ")[1].toDouble(&ok)*1.65)/8192);
+          }
+
      }
 
      emit sendData2Chart(channal_1,channal_2,myRange);

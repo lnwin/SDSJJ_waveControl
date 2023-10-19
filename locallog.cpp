@@ -18,13 +18,13 @@ void LocalLog::receiveMSG(QString msg)
 {
 
 
-//        if(count>7)
-//        {
-//            ui->textEdit->clear();
-//            count=0;
-//        }
+        if(count>20)
+        {
+            ui->textEdit->clear();
+            count=0;
+        }
 
-//        count+=1;
+        count+=1;
 //        if(msg!="HEARTBEAT\r\n")
       ui->textEdit->append(msg);
 

@@ -7,10 +7,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
        ui->setupUi(this);
 
-//       mytimer=new QTimer(this);
-//       connect(mytimer, SIGNAL(timeout()), this, SLOT(testcycle()));
-//       mytimer->setInterval(10000);
-
+       mytimer=new QTimer(this);
+       connect(mytimer, SIGNAL(timeout()), this, SLOT(testcycle()));
+       mytimer->setInterval(25000);
        //this->model = new QStandardItemModel;   //创建一个标准的条目模型
        qDebug()<<"main thread"<<QThread::currentThread();
        waveSocketThread =new QThread();
@@ -81,19 +80,19 @@ void MainWindow::receiveUIlock(bool lock)
     }
 };
 
-//int cyclecount=0;
-//void MainWindow::testcycle()
-//{
-//    if(ui->tabWidget->isEnabled())
-//    {
-//        emit startSample();
+int cyclecount=0;
+void MainWindow::testcycle()
+{
+    if(ui->tabWidget->isEnabled())
+    {
+        emit startSample();
 
-//         QString msg="循环次数："+QString::number(cyclecount,10);
-//        ui->textEdit->append(msg);
-//        cyclecount+=1;
-//    }
+         QString msg="循环次数："+QString::number(cyclecount,10);
+        ui->textEdit->append(msg);
+        cyclecount+=1;
+    }
 
-//}
+}
 void MainWindow::on_readfile_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName( this, "选择文件", ui->fileStream->text(), "文档(*.txt);");
@@ -133,7 +132,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_clicked()
 {
     emit sendMSG();
-   // mytimer->start();
+    mytimer->start();
 }
 
 
@@ -147,7 +146,7 @@ void MainWindow::on_gainMultiplier_editingFinished()
      if(ui->gainMultiplier->text().toInt()>255 )
      {
          QMessageBox msgBox;
-        msgBox.setText("数值需小于255");
+         msgBox.setText("数值需小于255");
          msgBox.exec();
          ui->gainMultiplier->setText("");
      }

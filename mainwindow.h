@@ -84,7 +84,7 @@ public slots:
     void on_pushButton_10_clicked();
     void on_readfile_clicked();
 
-    //void testcycle();
+    void testcycle();
 private:
     Ui::MainWindow *ui;
     QString  srcDirPath;
