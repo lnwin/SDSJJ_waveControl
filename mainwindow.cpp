@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 
        mytimer=new QTimer(this);
        connect(mytimer, SIGNAL(timeout()), this, SLOT(testcycle()));
-       mytimer->setInterval(25000);
+       mytimer->setInterval(15000);
        //this->model = new QStandardItemModel;   //创建一个标准的条目模型
        qDebug()<<"main thread"<<QThread::currentThread();
        waveSocketThread =new QThread();
@@ -85,6 +85,11 @@ void MainWindow::testcycle()
 {
     if(ui->tabWidget->isEnabled())
     {
+
+
+        emit sendMSG();
+        Sleep(1000);
+
         emit startSample();
 
          QString msg="循环次数："+QString::number(cyclecount,10);
@@ -131,7 +136,7 @@ MainWindow::~MainWindow()
 }
 void MainWindow::on_pushButton_clicked()
 {
-    emit sendMSG();
+   // emit sendMSG();
     mytimer->start();
 }
 
@@ -216,10 +221,10 @@ void MainWindow::on_fileSaveButton_clicked()
 }
   void MainWindow::receiveCallBack()
   {
-      QMessageBox msgBox;
-       msgBox.setWindowTitle("接收反馈");
-      msgBox.setText("指令下发成功！");
-      msgBox.exec();
+//      QMessageBox msgBox;
+//       msgBox.setWindowTitle("接收反馈");
+//      msgBox.setText("指令下发成功！");
+//      msgBox.exec();
   }
   void MainWindow::on_pushButton_4_clicked()
   {

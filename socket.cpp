@@ -423,7 +423,7 @@ void socket_SYS::startSample()
     MSG[1]=C3>>8;//高位在后
     MSG[0]=(C3<<8)>>8;
     MSG.append(ORG);
-    waveClient->write(MSG); 
+    waveClient->write(MSG);
     isSendpushed=true;
 
 
@@ -449,19 +449,20 @@ void socket_SYS::analyzeCurrentData(QString cd,QString head)
 
 
 
-     for(int i=0;i<countN;i++)
+     for(int i=0;i<countN-1;i++)
      {
-          if(cdList[i].split(" ").length()<2)
+        if(cdList[i].split(" ").length()>=2)
           {
-              QMessageBox msgBox;
-              msgBox.setText("接收或参考波形数据缺失！");
-              msgBox.exec();
+//              QMessageBox msgBox;
+//              msgBox.setText("接收或参考波形数据缺失！");
+//              msgBox.exec();
+            channal_1.append((cdList[i].split(" ")[0].toDouble(&ok)*1.65)/8192);
+            channal_2.append((cdList[i].split(" ")[1].toDouble(&ok)*1.65)/8192);
           }
-          else
-          {
-              channal_1.append((cdList[i].split(" ")[0].toDouble(&ok)*1.65)/8192);
-              channal_2.append((cdList[i].split(" ")[1].toDouble(&ok)*1.65)/8192);
-          }
+       //   else
+        //  {
+
+        //  }
 
      }
 
@@ -469,12 +470,15 @@ void socket_SYS::analyzeCurrentData(QString cd,QString head)
 
      myData.append( fileKeyMSG+="\r\n");
 
-     for(int i=0;i<countN;i++)
+     for(int i=0;i<countN-1;i++)
      {
+          if(cdList[i].split(" ").length()>=2)
+          {
         myData.append(QString::number((cdList[i].split(" ")[0].toDouble(&ok)*1.65)/8192,'f', 4) );
         myData.append(" ");
         myData.append(QString::number((cdList[i].split(" ")[1].toDouble(&ok)*1.65)/8192,'f', 4) );
         myData.append("\n");
+          }
      }
 
      emit sendData2Save(myData,myFilePath);
