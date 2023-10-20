@@ -136,8 +136,8 @@ MainWindow::~MainWindow()
 }
 void MainWindow::on_pushButton_clicked()
 {
-   // emit sendMSG();
-    mytimer->start();
+    emit sendMSG();
+   // mytimer->start();
 }
 
 
@@ -221,10 +221,10 @@ void MainWindow::on_fileSaveButton_clicked()
 }
   void MainWindow::receiveCallBack()
   {
-//      QMessageBox msgBox;
-//       msgBox.setWindowTitle("接收反馈");
-//      msgBox.setText("指令下发成功！");
-//      msgBox.exec();
+      QMessageBox msgBox;
+       msgBox.setWindowTitle("接收反馈");
+      msgBox.setText("指令下发成功！");
+      msgBox.exec();
   }
   void MainWindow::on_pushButton_4_clicked()
   {
